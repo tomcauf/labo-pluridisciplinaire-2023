@@ -1,0 +1,42 @@
+@font-face {
+    font-family: 'Brandon Grotesque';
+    src: url("../assets/fonts/BrandonGrotesque-Regular.otf");
+    src: url("../assets/fonts/BrandonGrotesque-Bold.otf");
+    src: url("../assets/fonts/BrandonGrotesque-Medium.otf");
+}
+html{
+    font-family: 'Brandon Grotesque';
+}
+.topLogo{
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    width: 60%;
+}
+header, body, label, .champ, .signIn, .lienMDP, form{
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+.buttonSignIn{
+    background-color: #fcb040;
+    border-radius: 40%;
+    width: 2.75rem;
+    height: 2rem;
+}
+.arrow{
+    width: 2rem;
+    height: 1.5rem;
+}
+.formInscription{
+    margin: 10rem;
+    height: 15rem;
+    max-height: 240px;
+}
+
+
+@media screen and (min-width: 400px){
+
+}
