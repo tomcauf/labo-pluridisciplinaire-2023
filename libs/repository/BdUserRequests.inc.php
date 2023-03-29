@@ -18,7 +18,7 @@ class BdUserRequest
             $link = BdConnect::connect2db($errorMessage);
             if (!$link)
                 return $errorMessage;
-            $query = $link->prepare("SELECT * FROM Utilisateur");
+            $query = $link->prepare("SELECT * FROM User");
             $query->execute();
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             BdConnect::disconnect($link);
@@ -52,7 +52,7 @@ class BdUserRequest
                 return $errorMessage;
             $hashPassword = password_hash($password, PASSWORD_DEFAULT);
 
-            $query = $link->prepare("INSERT INTO Utilisateur(prenom, nom, email, mot_de_passe, actif) 
+            $query = $link->prepare("INSERT INTO User(firstname, name, email, password, active) 
                                             VALUES (:firstname, :name, :email, :password, 1)");
             $query->bindValue(':firstname', $user->getFirstName());
             $query->bindValue(':name', $user->getName());
@@ -70,7 +70,7 @@ class BdUserRequest
         $link = BdConnect::connect2db();
         $hashPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $query = $link->prepare("INSERT INTO Utilisateur(prenom, nom, email, mot_de_passe, actif, manager) 
+        $query = $link->prepare("INSERT INTO User(firstname, name, email, password, active, manager) 
                                         VALUES (:firstname, :name, :email, :password, 1, :manager)");
         $query->bindValue(':firstname', $user->getFirstName());
         $query->bindValue(':name', $user->getName());
@@ -91,13 +91,13 @@ class BdUserRequest
 
         $hash = password_hash($password, PASSWORD_DEFAULT);
 
-        $query = $link->prepare("UPDATE Utilisateur SET prenom= :firstname, nom= :name, email = :email, mot_de_passe= :hash, manager= :manager 
-                                        WHERE id_utilisateur = :idUtilisateur");
+        $query = $link->prepare("UPDATE User SET firstname= :firstname, name= :name, email = :email, password= :hash, manager= :manager 
+                                        WHERE id_user = :idUser");
         $query->bindValue(':firstname', $firstname);
         $query->bindValue(':name', $name);
         $query->bindValue(':email', $email);
         $query->bindValue(':manager', $manager);
-        $query->bindValue(':idUtilisateur', $idUser);
+        $query->bindValue(':idUser', $idUser);
 
         if ($query->execute()) {
             BdConnect::disconnect($link);
@@ -110,8 +110,8 @@ class BdUserRequest
     {
         $link = BdConnect::connect2db();
 
-        $query = $link->prepare("UPDATE Utilisateur SET actif = 1 WHERE id_utilisateur = :idUtilisateur");
-        $query->bindValue(':idUtilisateur', $idUser);
+        $query = $link->prepare("UPDATE User SET active = 1 WHERE id_user = :idUser");
+        $query->bindValue(':idUser', $idUser);
 
         if ($query->execute())
             BdConnect::disconnect($link);
@@ -124,8 +124,8 @@ class BdUserRequest
     {
         $link = BdConnect::connect2db();
 
-        $query = $link->prepare("UPDATE Utilisateur SET actif = 0 WHERE id_utilisateur = :idUtilisateur");
-        $query->bindValue(':idUtilisateur', $idUser);
+        $query = $link->prepare("UPDATE User SET active = 0 WHERE id_user = :idUser");
+        $query->bindValue(':idUser', $idUser);
 
         if ($query->execute())
             BdConnect::disconnect($link);
