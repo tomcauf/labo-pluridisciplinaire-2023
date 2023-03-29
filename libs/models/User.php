@@ -13,13 +13,14 @@ class User
 
     /**
      * User constructor.
-     * @param $id int id of the user
+     * @param int $id int id of the user
      * @param $name string name of the user
      * @param $firstName string firstname of the user
      * @param $email string email of the user
+     * @param $isActive
      * @param $idManager int Manager of the user (nullable)
      */
-    public function __construct($id, $name, $firstName, $email,  $isActive,$idManager)
+    public function __construct($id, $name, $firstName, $email, $isActive, $idManager)
     {
         $this->id = $id;
         $this->name = $name;
@@ -30,7 +31,22 @@ class User
     }
 
     /**
-     * @return int
+     * magic method to get the value of a private property
+     * @param $name string name of the property
+     * @return null return null if the property doesn't exist
+     */
+    public function __get($name)
+    {
+        if(property_exists($this, $name)){
+            return $this->$name;
+        }else{
+            return null;
+        }
+    }
+
+
+    /**
+     * @return int id of the user
      */
     public function getId()
     {
@@ -38,7 +54,7 @@ class User
     }
 
     /**
-     * @return string
+     * @return string name of the user
      */
     public function getName()
     {
@@ -46,7 +62,7 @@ class User
     }
 
     /**
-     * @return string
+     * @return string firstname of the user
      */
     public function getFirstName()
     {
@@ -54,7 +70,7 @@ class User
     }
 
     /**
-     * @return string
+     * @return string email of the user
      */
     public function getEmail()
     {
@@ -62,12 +78,13 @@ class User
     }
 
     /**
-     * @return int
+     * @return int Manager of the user (nullable)
      */
     public function getIdManager()
     {
         return $this->idManager;
     }
+
 
     //to string avec tout le attributs privés
     public function __toString()
