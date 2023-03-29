@@ -137,11 +137,11 @@ class BdUserRequest
 
             $query = $link->prepare("INSERT INTO User(firstname, name, email, password, active, manager) 
                                             VALUES (:firstname, :name, :email, :password, 1, :manager)");
-            $query->bindValue(':firstname', $user->getFirstName());
-            $query->bindValue(':name', $user->getName());
-            $query->bindValue(':email', $user->getEmail());
+            $query->bindValue(':firstname', $user->firstName);
+            $query->bindValue(':name', $user->name);
+            $query->bindValue(':email', $user->email);
             $query->bindValue('password', $hashPassword);
-            $query->bindValue(':manager', $user->getIdManager());
+            $query->bindValue(':manager', $user->idManager);
 
             $query->execute();
         } catch (PDOException $e) {
