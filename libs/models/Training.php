@@ -20,43 +20,34 @@ class Training
     }
 
     /**
-     * @return mixed
+     *  magic method to get the value of a private property
+     *
+     * @param $name string name of the property
+     * @return null return null if the property doesn't exist
      */
-    public function getName()
+    public function __get($name)
     {
-        return $this->name;
+        if (property_exists($this, $name)) {
+            return $this->$name;
+        } else {
+            return null;
+        }
     }
 
     /**
-     * @return array|mixed
+     * for the debug and the log
+     *
+     * @return string representation of the object
      */
-    public function getTrainers()
+    public function __toString()
     {
-        return $this->trainers;
-    }
-
-    /**
-     * @return mixed|string
-     */
-    public function getFunctions()
-    {
-        return $this->functions;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getTime()
-    {
-        return $this->time;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getValidityDuration()
-    {
-        return $this->validityDuration;
+        return "{" .
+            "name:'" . $this->name . '\'' .
+            ", trainers:" . $this->trainers .
+            ", functions:'" . $this->functions . '\'' .
+            ", time:" . $this->time .
+            ", validityDuration:" . $this->validityDuration .
+            "}";
     }
 
 
