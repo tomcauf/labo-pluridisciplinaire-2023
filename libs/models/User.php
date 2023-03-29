@@ -11,6 +11,8 @@ class User
     private $idManager;
     private $isActive;
 
+    private $roles;
+
     /**
      * User constructor.
      * @param int $id int id of the user
@@ -29,6 +31,7 @@ class User
         $this->email = $email;
         $this->idManager = $idManager;
         $this->isActive = $isActive;
+        $this->roles = array();
     }
 
     /**
@@ -43,6 +46,17 @@ class User
         }else{
             return null;
         }
+    }
+
+    /**
+     * add a role to the user
+     * @param $role Role role to add
+     */
+    public function addRole($role){
+        $this->roles->add($role);
+    }
+    public function removeRole($role){
+        $this->roles->remove($role);
     }
 
 
