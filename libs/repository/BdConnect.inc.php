@@ -1,5 +1,5 @@
 <?php
-require 'BdConfig.inc.php';
+require_once 'BdConfig.inc.php';
 
 use PDO;
 use PDOException;

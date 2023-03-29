@@ -12,11 +12,11 @@ class User
 
     /**
      * User constructor.
-     * @param $id int l'identifiant de l'utilisateur
-     * @param $name string le nom de l'utilisateur
-     * @param $firstName string le prenom de l'utilisateur
-     * @param $email string l'email de l'utilisateur
-     * @param $idManager int l'identifiant du manager de l'utilisateur (peut être null)
+     * @param $id int id of the user
+     * @param $name string name of the user
+     * @param $firstName string firstname of the user
+     * @param $email string email of the user
+     * @param $idManager int Manager of the user (nullable)
      */
     public function __construct($id, $name, $firstName, $email, $idManager)
     {
