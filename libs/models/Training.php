@@ -7,16 +7,28 @@ class Training
     private $name;
     private $trainers;
     private $functions;
-    private $time;
+    private $participants;
+    private $duration;
     private $validityDuration;
+    private $requiredTraining;
+    private $deadline;
+    private $certificateDeadline;
+    private $location;
 
-    public function __construct($name, $trainers, $functions, $time, $validityDuration)
+    //TODO faire une autre classe pour alléger les attributs ? "Infos", "time" and "members" infos ?
+
+    public function __construct($name, $trainers, $functions, $participants, $duration, $validityDuration, $requiredTraining, $deadline, $certificateDeadline, $location)
     {
         $this->name = $name;
         $this->trainers = ($trainers == null) ? array() : $trainers;
         $this->functions = ($functions == null) ? "Everyone" : $functions;
-        $this->time = $time;
+        $this->participants = ($participants == null) ? array() : $participants;
+        $this->duration = $duration;
         $this->validityDuration = $validityDuration;
+        $this->requiredTraining = $requiredTraining;
+        $this->deadline = $deadline;
+        $this->certificateDeadline = $certificateDeadline;
+        $this->location = $location;
     }
 
     /**
@@ -27,11 +39,11 @@ class Training
      */
     public function __get($name)
     {
-        if (property_exists($this, $name)) {
+        if (property_exists($this, $name))
             return $this->$name;
-        } else {
+        else
             return null;
-        }
+
     }
 
     /**

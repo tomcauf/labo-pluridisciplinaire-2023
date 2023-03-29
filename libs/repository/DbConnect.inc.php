@@ -1,7 +1,7 @@
 <?php
-require_once 'BdConfig.inc.php';
+require_once 'DbConfig.inc.php';
 
-class BdConnect
+class DbConnect
 {
     public static function connect2db(&$message){
         try {

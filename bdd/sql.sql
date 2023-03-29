@@ -30,12 +30,12 @@ CREATE TABLE `Training` (
 );
 
 CREATE TABLE `Trainer` (
-                           `id_trainer` int(11) NOT NULL,
+                           `id_user` int(11) NOT NULL,
                            `id_training` int(11) NOT NULL
 );
 
 CREATE TABLE `Operate` (
-                           `id_trainer` int(11) NOT NULL,
+                           `id_function` int(11) NOT NULL,
                            `id_training` int(11) NOT NULL
 );
 
@@ -63,11 +63,11 @@ ALTER TABLE `User` ADD FOREIGN KEY (`manager`) REFERENCES `User` (`id_user`);
 
 ALTER TABLE `Have` ADD FOREIGN KEY (`id_user`) REFERENCES `User` (`id_user`);
 
-ALTER TABLE `Trainer` ADD FOREIGN KEY (`id_trainer`) REFERENCES `User` (`id_user`);
+ALTER TABLE `Trainer` ADD FOREIGN KEY (`id_user`) REFERENCES `User` (`id_user`);
 
 ALTER TABLE `Have` ADD FOREIGN KEY (`id_function`) REFERENCES `Function` (`id_function`);
 
-ALTER TABLE `Operate` ADD FOREIGN KEY (`id_training`) REFERENCES `Function` (`id_function`);
+ALTER TABLE `Operate` ADD FOREIGN KEY (`id_function`) REFERENCES `Function` (`id_function`);
 
 ALTER TABLE `Operate` ADD FOREIGN KEY (`id_training`) REFERENCES `Training` (`id_training`);
 
