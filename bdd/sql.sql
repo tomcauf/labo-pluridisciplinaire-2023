@@ -1,80 +1,86 @@
-CREATE TABLE `Utilisateur` (
-  `id_utilisateur` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `prenom` varchar(150) NOT NULL,
-  `nom` varchar(150) NOT NULL,
-  `email` varchar(255) UNIQUE NOT NULL,
-  `mot_de_passe` varchar(255) NOT NULL,
-  `manager` int(11),
-  `actif` bool NOT NULL
+CREATE TABLE `User` (
+                        `id_user` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+                        `firstname` varchar(150) NOT NULL,
+                        `name` varchar(150) NOT NULL,
+                        `email` varchar(255) UNIQUE NOT NULL,
+                        `password` varchar(255) NOT NULL,
+                        `manager` int(11),
+                        `active` bool NOT NULL
 );
 
-CREATE TABLE `Fonction_Utilisateur` (
-  `id_utilisateur` int(11) NOT NULL,
-  `id_fonction` int(11) NOT NULL
+CREATE TABLE `Have` (
+                        `id_user` int(11) NOT NULL,
+                        `id_function` int(11) NOT NULL
 );
 
-CREATE TABLE `Fonction` (
-  `id_fonction` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `nom` varchar(255) NOT NULL
+CREATE TABLE `Function` (
+                            `id_function` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+                            `name` varchar(255) NOT NULL
 );
 
-CREATE TABLE `Formation` (
-  `id_formation` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `nom` varchar(255) NOT NULL,
-  `localisation` varchar(255) NOT NULL,
-  `duree` time NOT NULL,
-  `date_limite` date NOT NULL,
-  `confirmation` bool NOT NULL,
-  `actif` bool NOT NULL,
-  `date_certificat_limite` date NOT NULL,
-  `id_requis` int(11)
+CREATE TABLE `Training` (
+                            `id_training` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+                            `name` varchar(255) NOT NULL,
+                            `location` varchar(255) NOT NULL,
+                            `duration` time NOT NULL,
+                            `deadline` date NOT NULL,
+                            `confirmation` bool NOT NULL,
+                            `active` bool NOT NULL,
+                            `certificate_deadline` date NOT NULL
 );
 
-CREATE TABLE `Formateur` (
-  `id_utilisateur` int(11) NOT NULL,
-  `id_formation` int(11) NOT NULL
+CREATE TABLE `Trainer` (
+                           `id_trainer` int(11) NOT NULL,
+                           `id_training` int(11) NOT NULL
 );
 
-CREATE TABLE `Fonction_Formation` (
-  `id_formation` int(11) NOT NULL,
-  `id_fonction` int(11) NOT NULL
+CREATE TABLE `Operate` (
+                           `id_trainer` int(11) NOT NULL,
+                           `id_training` int(11) NOT NULL
 );
 
-CREATE TABLE `Participe` (
-  `id_participe` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `id_utilisateur` int(11) NOT NULL,
-  `id_formation` int(11) NOT NULL,
-  `statut` SET("EN ATTENTE", "EN FORMATION","FORMATION TERMINEE","DEPOT FAIT", "VALIDEE") NOT NULL,
-  `lien_fichier` varchar(500)
+CREATE TABLE `Participate` (
+                               `id_participation` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+                               `id_user` int(11) NOT NULL,
+                               `id_training` int(11) NOT NULL,
+                               `status` SET('ON HOLD', 'IN PROGRESS','DONE','SENT', 'VALIDATED') NOT NULL,
+                               `file_link` varchar(500)
 );
 
-CREATE TABLE `Requete` (
-  `id_requete` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-  `type_of_validation` SET("ACCES FORMATION", "VALIDATION FORMATION"),
-  `id_valideur` int(11) NOT NULL,
-  `date_of_validation` date NOT NULL
+CREATE TABLE `Request` (
+                           `id_request` int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+                           `validation_type` SET('ACCESSED', 'VALIDATED'),
+                           `id_validator` int(11) NOT NULL,
+                           `validation_date` date NOT NULL
 );
 
-ALTER TABLE `Utilisateur` ADD FOREIGN KEY (`manager`) REFERENCES `Utilisateur` (`id_utilisateur`);
+CREATE TABLE `RequiredTraining` (
+                                    `id_training` int(11) NOT NULL,
+                                    `required_ID` int(11) NOT NULL
+);
 
-ALTER TABLE `Fonction_Utilisateur` ADD FOREIGN KEY (`id_utilisateur`) REFERENCES `Utilisateur` (`id_utilisateur`);
+ALTER TABLE `User` ADD FOREIGN KEY (`manager`) REFERENCES `User` (`id_user`);
 
-ALTER TABLE `Formateur` ADD FOREIGN KEY (`id_utilisateur`) REFERENCES `Utilisateur` (`id_utilisateur`);
+ALTER TABLE `Have` ADD FOREIGN KEY (`id_user`) REFERENCES `User` (`id_user`);
 
-ALTER TABLE `Fonction_Utilisateur` ADD FOREIGN KEY (`id_fonction`) REFERENCES `Fonction` (`id_fonction`);
+ALTER TABLE `Trainer` ADD FOREIGN KEY (`id_trainer`) REFERENCES `User` (`id_user`);
 
-ALTER TABLE `Fonction_Formation` ADD FOREIGN KEY (`id_fonction`) REFERENCES `Fonction` (`id_fonction`);
+ALTER TABLE `Have` ADD FOREIGN KEY (`id_function`) REFERENCES `Function` (`id_function`);
 
-ALTER TABLE `Fonction_Formation` ADD FOREIGN KEY (`id_formation`) REFERENCES `Formation` (`id_formation`);
+ALTER TABLE `Operate` ADD FOREIGN KEY (`id_training`) REFERENCES `Function` (`id_function`);
 
-ALTER TABLE `Formateur` ADD FOREIGN KEY (`id_formation`) REFERENCES `Formation` (`id_formation`);
+ALTER TABLE `Operate` ADD FOREIGN KEY (`id_training`) REFERENCES `Training` (`id_training`);
 
-ALTER TABLE `Participe` ADD FOREIGN KEY (`id_utilisateur`) REFERENCES `Utilisateur` (`id_utilisateur`);
+ALTER TABLE `Trainer` ADD FOREIGN KEY (`id_training`) REFERENCES `Training` (`id_training`);
 
-ALTER TABLE `Requete` ADD FOREIGN KEY (`id_valideur`) REFERENCES `Utilisateur` (`id_utilisateur`);
+ALTER TABLE `Participate` ADD FOREIGN KEY (`id_user`) REFERENCES `User` (`id_user`);
 
-ALTER TABLE `Requete` ADD FOREIGN KEY (`id_requete`) REFERENCES `Participe` (`id_participe`);
+ALTER TABLE `Request` ADD FOREIGN KEY (`id_validator`) REFERENCES `User` (`id_user`);
 
-ALTER TABLE `Formation` ADD FOREIGN KEY (`id_requis`) REFERENCES `Formation` (`id_formation`);
+ALTER TABLE `Request` ADD FOREIGN KEY (`id_request`) REFERENCES `Participate` (`id_participation`);
 
-ALTER TABLE `Participe` ADD FOREIGN KEY (`id_formation`) REFERENCES `Formation` (`id_formation`);
+ALTER TABLE `Participate` ADD FOREIGN KEY (`id_training`) REFERENCES `Training` (`id_training`);
+
+ALTER TABLE `RequiredTraining` ADD FOREIGN KEY (`id_training`) REFERENCES `Training` (`id_training`);
+
+ALTER TABLE `RequiredTraining` ADD FOREIGN KEY (`required_ID`) REFERENCES `Training` (`id_training`);
