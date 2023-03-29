@@ -19,7 +19,7 @@ class User
      * @param $email string email of the user
      * @param $idManager int Manager of the user (nullable)
      */
-    public function __construct($id, $name, $firstName, $email, $idManager, $isActive)
+    public function __construct($id, $name, $firstName, $email,  $isActive,$idManager)
     {
         $this->id = $id;
         $this->name = $name;
@@ -78,6 +78,7 @@ class User
             ", firstName='" . $this->firstName . '\'' .
             ", email='" . $this->email . '\'' .
             ", idManager=" . $this->idManager .
+            ", isActive=" . $this->isActive .
             '}';
     }
 }
