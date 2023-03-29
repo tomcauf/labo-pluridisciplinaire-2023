@@ -1,5 +1,6 @@
 <?php
-const TABLE_USER = 'user';
+namespace DB;
+const TABLE_USER = 'Utilisateur';
 const TABLE_TRAINING = 'training';
 const TABLE_PARTICIPATION = 'participation';
 const TABLE_TRAINER = 'trainer';

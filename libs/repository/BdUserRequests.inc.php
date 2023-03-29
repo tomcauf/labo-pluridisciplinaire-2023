@@ -1,5 +1,8 @@
 <?php
-require_once 'BdConnect.inc.php';
+require_once "BdConnect.inc.php";
+require_once "libs/models/User.php";
+
+use models\User;
 
 class BdUserRequest
 {
@@ -10,19 +13,51 @@ class BdUserRequest
      */
     static function getAllUser()
     {
-        $link = BdConnect::connect2db($base, $message);
-        $sql = "SELECT * FROM Utilisateur";
-        $result = $link->query($sql);
-        $users = $result->fetchAll(PDO::FETCH_ASSOC);
+        $errorMessage = "";
+        $link = BdConnect::connect2db($errorMessage);
+        $query = $link->prepare("SELECT * FROM Utilisateur");
+        if($query->execute()) {
+            $result = $query->fetchAll(PDO::FETCH_ASSOC);
+            BdConnect::disconnect($link);
+            $result = array_map(function($user) {
+                $user['mot_de_passe'] = null;
+                return new User($user['id_utilisateur'],
+                    $user['prenom'],
+                    $user['nom'],
+                    $user['email'],
+                    $user['actif'],
+                    $user['manager']);
+            }, $result);
+            return $result;
+        }
+        else {
+            return false;
+        }
+
         BdConnect::disconnect($link);
-        return $users;
+        return $result;
+
     }
 
     static function storeNewUserWithoutManager($user, $password)
     {
-        $link = BdConnect::connect2db();
-        
-        BdConnect::disconnect($link);
+        $errorMessage = "";
+        $link = BdConnect::connect2db($errorMessage);
+        $hashPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        $query = $link->prepare("INSERT INTO Utilisateur(prenom, nom, email, mot_de_passe, actif) 
+                                        VALUES (:firstname, :name, :email, :password, 1)");
+        $query->bindValue(':firstname', $user->getFirstName());
+        $query->bindValue(':name', $user->getName());
+        $query->bindValue(':email', $user->getEmail());
+        $query->bindValue('password', $hashPassword);
+
+        if($query->execute()) {
+            BdConnect::disconnect($link);
+        }
+        else {
+
+        }
     }
 
     static function storeNewUserWithManager($user, $password)
