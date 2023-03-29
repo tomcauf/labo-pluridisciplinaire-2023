@@ -1,26 +1,30 @@
 <?php
-require_once "BdConnect.inc.php";
+require_once "DbConnect.inc.php";
 require_once "libs/models/User.php";
 
 use models\User;
 
-class BdUserRequest
+class DbUserRequests
 {
 
+    //TODO 2x disconnect dans els fonctions ?
+    //TODO check fetch into avec les modes
+
     /**
+     * //TODO mot_de_passe ? Renvoie qu'un seul user ?
      * a generic function to get all user from the database
      * @return User[]|string array of user or error message
      */
     static function getAllUser()
     {
         try {
-            $link = BdConnect::connect2db($errorMessage);
+            $link = DbConnect::connect2db($errorMessage);
             if (!$link)
                 return $errorMessage;
             $query = $link->prepare("SELECT * FROM User");
             $query->execute();
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
-            BdConnect::disconnect($link);
+            DbConnect::disconnect($link);
             $result = array_map(function ($user) {
                 $user['mot_de_passe'] = null;
                 return new User($user['id_user'],
@@ -30,12 +34,12 @@ class BdUserRequest
                     $user['active'],
                     $user['manager']);
             }, $result);
-            BdConnect::disconnect($link);
+            DbConnect::disconnect($link);
             return $result;
         } catch (PDOException $e) {
             return $e->getMessage();
         }finally {
-            BdConnect::disconnect($link);
+            DbConnect::disconnect($link);
         }
 
     }
@@ -51,7 +55,7 @@ class BdUserRequest
     static function getUserDataAndVerifyPsw($email, $password)
     {
         try {
-            $link = BdConnect::connect2db($errorMessage);
+            $link = DbConnect::connect2db($errorMessage);
             if (!$link)
                 return $errorMessage;
             $query = $link->prepare("SELECT * FROM User WHERE email = :email");
@@ -59,7 +63,7 @@ class BdUserRequest
 
             $query->execute();
             $result = $query->fetch(PDO::FETCH_ASSOC);
-            BdConnect::disconnect($link);
+            DbConnect::disconnect($link);
             if ($result) {
                 if (password_verify($password, $result['password'])) {
                     $result['password'] = null;
@@ -78,7 +82,7 @@ class BdUserRequest
         } catch (PDOException $e) {
             return $e->getMessage();
         } finally {
-            BdConnect::disconnect($link);
+            DbConnect::disconnect($link);
         }
 
     }
@@ -90,10 +94,10 @@ class BdUserRequest
      *                           or error message
      *                           or false if the password is not correct
      */
-    static function getUserWithId($id)
+    static function getUserById($id)
     {
         try {
-            $link = BdConnect::connect2db($errorMessage);
+            $link = DbConnect::connect2db($errorMessage);
             if (!$link)
                 return $errorMessage;
             $query = $link->prepare("SELECT * FROM User WHERE id_user = :id_user");
@@ -101,7 +105,7 @@ class BdUserRequest
 
             $query->execute();
             $result = $query->fetch(PDO::FETCH_ASSOC);
-            BdConnect::disconnect($link);
+            DbConnect::disconnect($link);
             if ($result) {
                 return new User($result['id_user'],
                     $result['firstname'],
@@ -115,9 +119,29 @@ class BdUserRequest
         } catch (PDOException $e) {
             return $e->getMessage();
         } finally {
-            BdConnect::disconnect($link);
+            DbConnect::disconnect($link);
         }
 
+    }
+
+    static function getUserByEmail($email)
+    {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            if (!$link)
+                return $errorMessage;
+            $query = $link->prepare("SELECT * FROM User WHERE email = :email");
+            $query->bindValue(':email', $email);
+            $query->execute();
+            $result = $query->fetch();
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        }
+        finally {
+            DbConnect::disconnect($link);
+        }
+
+        return !$result ? "Nothing" : $result;
     }
 
 
@@ -130,7 +154,7 @@ class BdUserRequest
     static function storeNewUser($user, $password)
     {
         try {
-            $link = BdConnect::connect2db($errorMessage);
+            $link = DbConnect::connect2db($errorMessage);
             if (!$link)
                 return $errorMessage;
             $hashPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -147,7 +171,7 @@ class BdUserRequest
         } catch (PDOException $e) {
             return $e->getMessage();
         } finally {
-            BdConnect::disconnect($link);
+            DbConnect::disconnect($link);
         }
     }
 
@@ -164,7 +188,7 @@ class BdUserRequest
     static function updateUser($idUser, $firstname, $name, $email, $manager)
     {
         try {
-            $link = BdConnect::connect2db($errorMessage);
+            $link = DbConnect::connect2db($errorMessage);
             if (!$link)
                 return $errorMessage;
 
@@ -179,12 +203,12 @@ class BdUserRequest
             if (!$query->execute()) {
                 return "error unable to update user";
             }
-            BdConnect::disconnect($link);
+            DbConnect::disconnect($link);
             return new User($idUser, $firstname, $name, $email, 1, $manager);
         } catch (PDOException $e) {
             return $e->getMessage();
         } finally {
-            BdConnect::disconnect($link);
+            DbConnect::disconnect($link);
         }
     }
 
@@ -197,7 +221,7 @@ class BdUserRequest
     static function activateUser($idUser, $active)
     {
         try {
-            $link = BdConnect::connect2db($errorMessage);
+            $link = DbConnect::connect2db($errorMessage);
             if (!$link)
                 return $errorMessage;
 
@@ -214,7 +238,7 @@ class BdUserRequest
         } catch (PDOException $e) {
             return $e->getMessage();
         } finally {
-            BdConnect::disconnect($link);
+            DbConnect::disconnect($link);
         }
     }
 
@@ -231,7 +255,7 @@ class BdUserRequest
     static function updatePassword($idUser, $password)
     {
         try {
-            $link = BdConnect::connect2db($errorMessage);
+            $link = DbConnect::connect2db($errorMessage);
             if (!$link)
                 return $errorMessage;
             $hashPassword = password_hash($password, PASSWORD_DEFAULT);
@@ -249,7 +273,7 @@ class BdUserRequest
         } catch (PDOException $e) {
             return $e->getMessage();
         } finally {
-            BdConnect::disconnect($link);
+            DbConnect::disconnect($link);
         }
     }
 
