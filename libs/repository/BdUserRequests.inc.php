@@ -7,19 +7,22 @@ use models\User;
 class BdUserRequest
 {
 
+
     /**
-     * request to get all users on the database
-     * @return array of all users
+     * a generic function to get all user from the database
+     * @return User[]|string array of user or error message
      */
     static function getAllUser()
     {
-        $errorMessage = "";
-        $link = BdConnect::connect2db($errorMessage);
-        $query = $link->prepare("SELECT * FROM Utilisateur");
-        if($query->execute()) {
+        try {
+            $link = BdConnect::connect2db($errorMessage);
+            if (!$link)
+                return $errorMessage;
+            $query = $link->prepare("SELECT * FROM Utilisateur");
+            $query->execute();
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             BdConnect::disconnect($link);
-            $result = array_map(function($user) {
+            $result = array_map(function ($user) {
                 $user['mot_de_passe'] = null;
                 return new User($user['id_utilisateur'],
                     $user['prenom'],
@@ -28,35 +31,37 @@ class BdUserRequest
                     $user['actif'],
                     $user['manager']);
             }, $result);
+            BdConnect::disconnect($link);
             return $result;
+        } catch (PDOException $e) {
+            return $e->getMessage();
         }
-        else {
-            return false;
-        }
-
-        BdConnect::disconnect($link);
-        return $result;
 
     }
 
+    /**
+     * @param $user User user to store
+     * @param $password string password of the user that will be hashed
+     * @return string|void error message or nothing if everything is ok
+     */
     static function storeNewUserWithoutManager($user, $password)
     {
-        $errorMessage = "";
-        $link = BdConnect::connect2db($errorMessage);
-        $hashPassword = password_hash($password, PASSWORD_DEFAULT);
+        try {
+            $link = BdConnect::connect2db($errorMessage);
+            if (!$link)
+                return $errorMessage;
+            $hashPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        $query = $link->prepare("INSERT INTO Utilisateur(prenom, nom, email, mot_de_passe, actif) 
-                                        VALUES (:firstname, :name, :email, :password, 1)");
-        $query->bindValue(':firstname', $user->getFirstName());
-        $query->bindValue(':name', $user->getName());
-        $query->bindValue(':email', $user->getEmail());
-        $query->bindValue('password', $hashPassword);
+            $query = $link->prepare("INSERT INTO Utilisateur(prenom, nom, email, mot_de_passe, actif) 
+                                            VALUES (:firstname, :name, :email, :password, 1)");
+            $query->bindValue(':firstname', $user->getFirstName());
+            $query->bindValue(':name', $user->getName());
+            $query->bindValue(':email', $user->getEmail());
+            $query->bindValue('password', $hashPassword);
 
-        if($query->execute()) {
-            BdConnect::disconnect($link);
-        }
-        else {
-
+            $query->execute();
+        } catch (PDOException $e) {
+            return $e->getMessage();
         }
     }
 
@@ -73,10 +78,9 @@ class BdUserRequest
         $query->bindValue('password', $hashPassword);
         $query->bindValue(':manager', $user->getIdManager());
 
-        if($query->execute()) {
+        if ($query->execute()) {
             BdConnect::disconnect($link);
-        }
-        else {
+        } else {
 
         }
     }

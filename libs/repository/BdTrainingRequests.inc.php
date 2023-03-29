@@ -1,6 +1,6 @@
 <?php
 require_once "BdConnect.inc.php";
-require_once "libs/models/Catalog.php";
+require_once "libs/models/Training.php";
 
 use models\Training;
 
