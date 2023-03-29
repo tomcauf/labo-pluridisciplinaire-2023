@@ -22,6 +22,7 @@ class User
      */
     public function __construct($id, $name, $firstName, $email, $isActive, $idManager)
     {
+        //todo check the type of the parameters and throw an exception if it's not the good type
         $this->id = $id;
         $this->name = $name;
         $this->firstName = $firstName;
@@ -46,56 +47,18 @@ class User
 
 
     /**
-     * @return int id of the user
+     * for the debug and the log
+     * @return string representation of the object
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @return string name of the user
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return string firstname of the user
-     */
-    public function getFirstName()
-    {
-        return $this->firstName;
-    }
-
-    /**
-     * @return string email of the user
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * @return int Manager of the user (nullable)
-     */
-    public function getIdManager()
-    {
-        return $this->idManager;
-    }
-
-
-    //to string avec tout le attributs privés
     public function __toString()
     {
-        return "User{" .
-            "id=" . $this->id .
-            ", name='" . $this->name . '\'' .
-            ", firstName='" . $this->firstName . '\'' .
-            ", email='" . $this->email . '\'' .
-            ", idManager=" . $this->idManager .
-            ", isActive=" . $this->isActive .
+        return "{" .
+            "id:" . $this->id .
+            ", name:'" . $this->name . '\'' .
+            ", firstName:'" . $this->firstName . '\'' .
+            ", email:'" . $this->email . '\'' .
+            ", idManager:" . $this->idManager .
+            ", isActive:" . $this->isActive .
             '}';
     }
 }
