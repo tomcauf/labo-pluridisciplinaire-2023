@@ -4,24 +4,25 @@ require_once "DbConnect.inc.php";
 class DbTrainingRequests
 {
 
-    static function addTrainingCourse($name, $location, $duration, $deadline, $certificate_deadline)
+    static function addTrainingCourse($name, $description, $location, $duration, $deadline, $certificate_deadline)
     {
         try {
-           $link = DbConnect::connect2db($errorMessage);
-           if ($link == null) {
-               return $errorMessage;
-           }
+            $link = DbConnect::connect2db($errorMessage);
+            if ($link == null) {
+                return $errorMessage;
+            }
 
-           $query = $link->prepare("INSERT INTO Training (name, location, duration, deadline, active, certificate_deadline) 
-                                VALUES (:name, :location, :duration, :deadline, 1, :certificate_deadline)");
-           $query->bindValue(":name", $name);
-           $query->bindValue(":location", $location);
-           $query->bindValue(":duration", $duration);
-           $query->bindValue(":deadline", $deadline);
-           $query->bindValue(":certificate_deadline", $certificate_deadline);
-           $query->execute();
+            $query = $link->prepare("INSERT INTO Training (name, description, location, duration, deadline, active, certificate_deadline) 
+                                VALUES (:name, :description, :location, :duration, :deadline, 1, :certificate_deadline)");
+            $query->bindValue(":name", $name);
+            $query->bindValue(":description", $description);
+            $query->bindValue(":location", $location);
+            $query->bindValue(":duration", $duration);
+            $query->bindValue(":deadline", $deadline);
+            $query->bindValue(":certificate_deadline", $certificate_deadline);
+            $query->execute();
 
-        }catch (PDOException $e){
+        } catch (PDOException $e) {
             echo $e->getMessage();
         } finally {
             DbConnect::disconnect($link);
@@ -30,21 +31,18 @@ class DbTrainingRequests
 
     static function addRequiredTraining($idTraining, ...$requiredTrainingIds)
     {
-        try
-        {
+        try {
             $link = DbConnect::connect2db($errorMessage);
             if ($link == null) {
                 return $errorMessage;
             }
-            foreach($requiredTrainingIds as $requiredTrainingId)
-            {
+            foreach ($requiredTrainingIds as $requiredTrainingId) {
                 $query = $link->prepare("INSERT INTO RequiredTraining(id_training, required_ID) VALUES(:idTraining, :requiredId)");
                 $query->bindValue(":idTraining", $idTraining);
                 $query->bindValue(":requiredId", $requiredTrainingId);
                 $query->execute();
             }
-        } catch (PDOException $e)
-        {
+        } catch (PDOException $e) {
             echo $e->getMessage();
         } finally {
             DbConnect::disconnect($link);
@@ -68,12 +66,16 @@ class DbTrainingRequests
             echo $e->getMessage();
         } finally {
             DbConnect::disconnect($link);
-            return $results;
+            return (isset($results)) ? $results : "Something went wrong with the request";
         }
     }
 
-    static function updateTrainingCourse($idTraining, $name, $location, $duration, $deadline, $certificate_deadline)
+    static function updateTrainingCourse($idTraining, $active, $name, $location, $duration, $deadline, $certificate_deadline)
     {
+
+        if (!$active)
+            return "Cannot update an archived training course";
+
         try {
             $link = DbConnect::connect2db($errorMessage);
             if ($link == null) {
@@ -132,7 +134,7 @@ class DbTrainingRequests
         }
     }
 
-    static function getTrainingLinks($idTraining)
+    static function getTrainingLinksFunctions($idTraining)
     {
         try {
             $link = DbConnect::connect2db($errorMessage);
@@ -144,11 +146,11 @@ class DbTrainingRequests
             echo $exception->getMessage();
         } finally {
             DbConnect::disconnect($link);
-            return $results;
+            return (isset($results)) ? $results : "Something went wrong with the request";
         }
     }
 
-    static function addLinksToTraining($idTraining, ...$idFunctions)
+    static function addLinksToTrainingFunction($idTraining, ...$idFunctions)
     {
         try {
             $link = DbConnect::connect2db($errorMessage);
@@ -165,20 +167,19 @@ class DbTrainingRequests
             DbConnect::disconnect($link);
         }
     }
-
     static function getTrainingLinksUser($idTraining)
     {
         try {
             $link = DbConnect::connect2db($errorMessage);
-            $query = $link->prepare("SELECT id_user FROM Training WHERE id_training = :idTraining");
+            $query = $link->prepare("SELECT id_user FROM Trainer WHERE id_training = :idTraining");
             $query->bindValue(":idTraining", $idTraining);
             $query->execute();
-            $results = $query->fetchAll();
+            return $query->fetchAll();
         } catch (PDOException $exception) {
             echo $exception->getMessage();
         } finally {
             DbConnect::disconnect($link);
-            return $results;
+            return (isset($results)) ? $results : "Something went wrong with the request";
         }
     }
 
@@ -188,11 +189,48 @@ class DbTrainingRequests
             $link = DbConnect::connect2db($errorMessage);
 
             foreach($idUsers as $idUser) {
-                $query = $link->prepare("INSERT INTO Training(id_user, id_training) VALUES (:idUser, :idTraining);");
+                $query = $link->prepare("INSERT INTO Trainer(id_user, id_training) VALUES (:idUser, :idTraining);");
                 $query->bindValue(":idUser", $idUser);
                 $query->bindValue(":idTraining", $idTraining);
                 $query->execute();
             }
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
+    }
+
+    static function addLinksToTrainingAccreditation($idTraining, ...$idAccreditations)
+    {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+
+            foreach($idAccreditations as $idAccreditation) {
+                $query = $link->prepare("INSERT INTO GiveAccess(id_accreditation, id_training) 
+                                                VALUES (:idAccreditation, :idTraining);");
+                $query->bindValue(":idAccrediation", $idAccreditations);
+                $query->bindValue(":idTraining", $idTraining);
+                $query->execute();
+            }
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
+    }
+
+    static function getTrainingLinksAccreditations($idTraining)
+    {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            $query = $link->prepare("SELECT a.id_training, a.name
+                                            FROM Accrediation a
+                                            JOIN GiveAccess ga AS ga.id_accreditationa = a.id_accrediation
+                                            WHERE ga.id_training = :idTraining");
+            $query->bindValue(":idTraining", $idTraining);
+            $query->execute();
+            return $query->fetchAll();
         } catch (PDOException $exception) {
             echo $exception->getMessage();
         } finally {
