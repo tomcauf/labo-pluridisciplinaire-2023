@@ -45,7 +45,7 @@ class DbUserRequests
      * get the data of the user and verify the password
      * @param $email string email of the user
      * @param $password string password of the user to verify
-     * @return User|string|false an object with the data of the user if the coonection is ok
+     * @return int|string|false an object with the data of the user if the coonection is ok
      *                           or error message
      *                           or false if the password is not correct
      */
@@ -64,12 +64,7 @@ class DbUserRequests
             if ($result) {
                 if (password_verify($password, $result['password'])) {
                     $result['password'] = null;
-                    return new User($result['id_user'],
-                        $result['firstname'],
-                        $result['name'],
-                        $result['email'],
-                        $result['active'],
-                        $result['manager']);
+                    return intval($result['id_user']);
                 } else {
                     return false;
                 }
