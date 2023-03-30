@@ -1,0 +1,204 @@
+@font-face {
+    font-family: 'Brandon Grotesque';
+    src: url("../assets/fonts/brandon_grotesque_font_family/BrandonGrotesque-Regular.otf") format("opentype");
+    src: url("../assets/fonts/brandon_grotesque_font_family/BrandonGrotesque-Bold.otf") format("opentype");
+}
+@font-face {
+    font-family: 'Calibri';
+    src: url("../assets/fonts/calibri_font_family/calibri-bold-italic.ttf") format("truetype");
+    src: url("../assets/fonts/calibri_font_family/calibri-bold.ttf") format("truetype");
+    src: url("../assets/fonts/calibri_font_family/calibri-italic.ttf") format("truetype");
+    src: url("../assets/fonts/calibri_font_family/calibri-regular.ttf") format("truetype");
+}
+:root {
+    /*========== Colors ==========*/
+    /*====== Elements ======*/
+    --text-color: #00284C;
+    --primary-color: #225479;
+    --secondary-color: #56779a;
+    --tertiary-color: #fcb040;
+
+    /*========== Font and typography ==========*/
+    --font-family: 'Brandon Grotesque', 'Calibri', sans-serif;
+    --text-family: 'Calibri', 'Brandon Grotesque', sans-serif;
+}
+/*=============== BASE ===============*/
+*{
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    scrollbar-width: none;
+}
+
+html{
+    scroll-behavior: smooth;
+    overflow-y: scroll;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-family: var(--text-family);
+    background-color: #fefcf3;
+}
+
+.text{
+    font-family: var(--text-family);
+    color: var(--text-color);
+}
+/*=============== RESPONSIVE HEADER-MAIN-FOOTER ===============*/
+.header{
+    background: var(--body-color);
+    position: fixed;
+    top: 0;
+    padding-top: 10px;
+    text-align: center;
+    width: 100%;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+}
+.logo{
+    max-width: 100%;
+    height: auto;
+}
+main{
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+footer{
+    width: 100%;
+    text-align: center;
+    color: var(--body-color);
+    font-size: var(--smaller-font-size);
+    background-color: var(--footer-color);
+}
+
+/*=============== HEADER ===============*/
+.top-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100px;
+    width: 100%;
+    padding: 1em;
+}
+/*=============== MAIN ===============*/
+/*======== SIGN IN ========*/
+.title-sign{
+    font-size: 140px;
+}
+.subtitle-sign{
+    font-size: 35px;
+    margin-top: -40px;
+}
+.form-sign{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.email-icon {
+    padding-left: 32px;
+    background: url("../assets/images/mail.svg") no-repeat left;
+    background-size: 27px;
+}
+.password-icon {
+    padding-left: 32px;
+    background: url("../assets/images/lock.svg") no-repeat left;
+    background-size: 27px;
+}
+.email-sign, .password-sign{
+    width: 350px;
+    height: 50px;
+    font-size: 20px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    margin-top: 40px;
+    background-color: white;
+    border: none;
+}
+.submit-sign{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 120px;
+}
+.submit-sign-message{
+    font-size: 35px;
+    margin-right: 20px;
+    font-weight: bold;
+}
+.submit-sign-button{
+    width: 74px;
+    height: 56px;
+    border: none;
+    background: #FCB040;
+    border-radius: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.submit-sign-button img{
+    width: 30px;
+    height: 30px;
+}
+.submit-sign-button:hover{
+    background: #F9A03F;
+}
+/*=============== FOOTER ===============*/
+footer{
+    padding: 1em;
+    background-color: var(--footer-color);
+    color: var(--body-color);
+    font-size: var(--smaller-font-size);
+    text-align: center;
+    border-top: 10px solid var(--body-color);
+}
+
+/*=============== RESPONSIVE ===============*/
+@media screen and (max-width: 768px) {
+    .title-sign{
+        font-size: 100px;
+    }
+    .subtitle-sign{
+        font-size: 30px;
+        margin-top: -30px;
+    }
+    .email-sign, .password-sign{
+        width: 300px;
+        height: 50px;
+        font-size: 20px;
+    }
+    .email-icon {
+        padding-left: 29px;
+        background-size: 24px;
+    }
+    .password-icon {
+        padding-left: 29px;
+        background-size: 24px;
+    }
+    .submit-sign{
+        margin-top: 80px;
+    }
+    .submit-sign-message{
+        font-size: 30px;
+        margin-right: 10px;
+    }
+    .submit-sign-button{
+        width: 50px;
+        height: 40px;
+    }
+    .submit-sign-button img{
+        width: 20px;
+        height: 20px;
+    }
+}
+.error-message{
+    display: none;
+    color: red;
+    font-size: 20px;
+    margin-top: 10px;
+}
