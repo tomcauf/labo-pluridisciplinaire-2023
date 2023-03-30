@@ -1,3 +1,6 @@
+<?php
+include 'inc/session.inc.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -32,11 +35,21 @@
                             <p>Function</p>
                             <p>Actif</p>
                         </div>
-                        <div class="box-underline box-element box-flex">
-                            <p>Tom Caufrier</p>
-                            <p>CEO</p>
-                            <img src="/assets/images/radio_button_green.svg" class="radio-button" alt="Actif">
-                        </div>
+                        <?php
+                            foreach($users as $user) {
+                                $name = $user['name'] . " " . $user['firstname'];
+                                $functions = DbUserRequests::getUserLinksFunction($user['id_user']);
+                                $functionString = "";
+                                $imageLink = ($user['active']) ? "/assets/images/radio_button_green.svg" : "../assets/images/radio_button_red.svg";
+                                foreach($functions as $function) {
+                                    $functionString .= $function['name']."";
+                                }
+                                echo "<div class='box-underline box-element box-flex'
+                                        <p>$name</p>
+                                        <p>$functionString</p>
+                                        <img src='$imageLink' alt='connection state'></div>";
+                            }
+                        ?>
                     </div>
                 </div>
                 <div class="box box-management">
@@ -48,7 +61,7 @@
                         <input type="text" name="firstname" class="firstname-user text" placeholder="Firstname" required>
                         <input type="text" name="name" class="name-user text" placeholder="Name" required>
                         <input type="text" name="email" class="email-user text" placeholder="Email" required>
-                        <select name="countries" id="countries" class="select-user text" multiple>
+                        <select name="manager" id="manager" class="select-user text" multiple>
                             <option value="1">Employe</option>
                         </select>
                         <button class="submit-create-user">Create</button>
@@ -60,9 +73,9 @@
 </body>
 <script src="../scripts/multiSelectTag.js"></script>
 <script>
-    new MultiSelectTag('countries', {
-    rounded: true,    // default true
-    shadow: true      // default false
+    new MultiSelectTag('manager', {
+    rounded: true,
+    shadow: true
 })
 </script>
 </html>

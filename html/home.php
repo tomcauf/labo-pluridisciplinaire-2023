@@ -1,5 +1,5 @@
 <?php
-
+include 'inc/session.inc.php';
 require_once '../libs/repository/DbTrainingRequests.inc.php';
 //require_once '../inc/formAddClient.inc.php';
 

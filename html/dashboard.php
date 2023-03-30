@@ -15,6 +15,7 @@ $idUser = 1;
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -23,6 +24,7 @@ $idUser = 1;
     <script src="../scripts/sideBar.js" defer></script>
     <title>Dashboard</title>
 </head>
+
 <body>
 <?php include 'inc/header.inc.php'; ?>
 <main class="main">
@@ -93,11 +95,11 @@ $idUser = 1;
 
                     ?>
                 </div>
-            </div>
-            <div class="box box-ongoing-training-">
-                <div class="box-title">
-                    <h2 class="title text">On going Training</h2>
-                    <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+                <div class="box box-ongoing-training-">
+                    <div class="box-title">
+                        <h2 class="title text">On going Training</h2>
+                        <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+                    </div>
                 </div>
                 <?php
                 $allTraining = DbUserRequests::getAllParticipantTraining($idUser);
@@ -110,12 +112,13 @@ $idUser = 1;
                 </div>
             </div>
         </div>
-    </div>
-</main>
-<script>
-    function goTo(id) {
-        window.location.href = "info.php?id=" + id + "&type=training";
-    }
-</script>
+        </div>
+    </main>
+    <script>
+        function goTo(id) {
+            window.location.href = "info.php?id=" + id + "&type=training";
+        }
+    </script>
 </body>
+
 </html>
