@@ -21,9 +21,15 @@
                         <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
                     </div>
                     <div>
-                        <div class="box-underline box-element">
-                            <p>mok</p>
-                            <p>mokmok</p>
+                        <div class="box-underline box-title box-flex">
+                            <p>Name</p>
+                            <p>Location</p>
+                            <p>Date</p>
+                        </div>
+                        <div class="box-underline box-element box-flex">
+                            <p class="nom">test Formation</p>
+                            <p class="location">test</p>
+                            <p class="date">2023-03-08</p>
                         </div>
                     </div>
                 </div>
