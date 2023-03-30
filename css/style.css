@@ -17,6 +17,7 @@
     --primary-color: #225479;
     --secondary-color: #56779a;
     --tertiary-color: #fcb040;
+    --side-bar-color: #7E9BBA;
 
     /*========== Font and typography ==========*/
     --font-family: 'Brandon Grotesque', 'Calibri', sans-serif;
@@ -47,12 +48,12 @@ body{
     font-family: var(--text-family);
     color: var(--text-color);
 }
+a{
+    text-decoration: none;
+}
 /*=============== RESPONSIVE HEADER-MAIN-FOOTER ===============*/
 .header{
     background: var(--body-color);
-    position: fixed;
-    top: 0;
-    padding-top: 10px;
     text-align: center;
     width: 100%;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
@@ -66,6 +67,8 @@ main{
     display: flex;
     flex-direction: column;
     justify-content: center;
+}
+.main-sign{
     align-items: center;
 }
 footer{
@@ -75,9 +78,8 @@ footer{
     font-size: var(--smaller-font-size);
     background-color: var(--footer-color);
 }
-
 /*=============== HEADER ===============*/
-.top-nav {
+.top-head {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -85,9 +87,59 @@ footer{
     width: 100%;
     padding: 1em;
 }
+/*=============== NAVIGATION ===============*/
+.responsive-side-bar{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    /* width: 550px; */
+}
+.nav-icon{
+    width: 45px;
+    height: 45px;
+    fill: var(--text-color);
+}
+.nav-text{
+    font-size: 20px;
+    margin-left: 15px;
+}
+.nav-link a{
+    display: flex;
+    align-items: center;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+.menu-bar {
+    height: calc(100% - 31px);
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    justify-content: space-between;
+}
+.side-bar{
+    background-color: var(--side-bar-color);
+    width: 269px;
+    /* height: calc(100vh - 100px); */
+    transition: 0.3s;
+    opacity: 1;
+}
+.side-bar.close{
+    width: 52px;
+}
+.side-bar.close .text{
+    display: none;
+}
+.menu-links:first-child{
+    margin-top: 50px;
+}
 /*=============== MAIN ===============*/
+.main{
+    justify-content: normal;
+    flex-direction: row;
+}
 /*======== SIGN IN ========*/
 .title-sign{
+    margin-top: -100px;
     font-size: 140px;
 }
 .subtitle-sign{
@@ -139,7 +191,6 @@ footer{
     display: flex;
     justify-content: center;
     align-items: center;
-
 }
 .submit-sign-button img{
     width: 30px;
@@ -147,6 +198,75 @@ footer{
 }
 .submit-sign-button:hover{
     background: #F9A03F;
+}
+/*======== DASHBOARD ========*/
+.dashboard, .user-management{
+    /* margin: 0 auto; */
+    /* width: auto; */
+    /* width: calc(100% - 570px); */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1;
+}
+
+.dashboard, .user-management > .title{
+    /* font-size: 50px; */
+    margin-top: 30px;
+    /* margin-bottom: 50px; */
+    text-decoration: underline;
+}
+.boxs{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    /* align-content: space-between; */
+    /* width: 100vh; */
+    /* margin-right: 100px; */
+}
+.box{
+    width: 531px;
+    height: 386px;
+    background-color: white;
+    border: 1px solid #E5E5E5;
+    border-radius: 40px;
+    margin-top: 30px;
+    overflow-y: scroll;
+}
+.box-title{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: center;
+    height: 60px;
+    display: flex;
+    justify-content: space-between; /* Aligner les éléments horizontalement */
+    align-items: center;
+}
+.box-title .title{
+    flex: 1;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+.box-title img{
+    width: 24px;
+    height: 24px;
+    /* flex: 1; */
+    margin-left: auto;
+    margin-right: 16px;
+}
+.box-underline{
+    border-bottom: 1px solid #E5E5E5;
+}
+.box-element:hover{
+    background-color: #F9F9F9;
+}
+/*======== USER MANAGEMENT ========*/
+.box-management{
+    width: 800px;
+    height: 800px;
 }
 /*=============== FOOTER ===============*/
 footer{
@@ -159,7 +279,7 @@ footer{
 }
 
 /*=============== RESPONSIVE ===============*/
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 790px) {
     .title-sign{
         font-size: 100px;
     }
@@ -194,6 +314,27 @@ footer{
     .submit-sign-button img{
         width: 20px;
         height: 20px;
+    }
+    /*=============== NAV ===============*/
+    .side-bar{
+        width: 280px;
+        overflow: hidden;
+    }
+    .nav-icon{
+    width: 24px;
+    height: 24px;
+    }
+    .nav-text{
+        font-size: 16px;
+        margin-left: 10px;
+    }
+    .side-bar.close{
+        width: 29px;
+    }
+    /*=============== DASHBOARD ===============*/
+    .box{
+        width: 350px;
+        height: 300px;
     }
 }
 .error-message{

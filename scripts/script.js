@@ -1,6 +1,9 @@
-document.getElementById('mail').addEventListener('input', function(){
+const mail = document.getElementById('mail'),
+        password = document.getElementById('password');
+        
+mail.addEventListener('input', function(){
     this.style.border = 'none';
 });
-document.getElementById('password').addEventListener('input', function(){
+password.addEventListener('input', function(){
     this.style.border = 'none';
 });
