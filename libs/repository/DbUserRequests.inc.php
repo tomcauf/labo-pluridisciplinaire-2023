@@ -1,8 +1,5 @@
 <?php
 require_once "DbConnect.inc.php";
-require_once "libs/models/User.php";
-
-use models\User;
 
 class DbUserRequests
 {
