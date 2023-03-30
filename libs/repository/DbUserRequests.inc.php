@@ -57,15 +57,19 @@ class DbUserRequests
             DbConnect::disconnect($link);
         }
     }
-    
-    static function getAllParticipantTraining($idUser){
+
+    static function getAllParticipantTraining($idUser)
+    {
         try {
             $link = DbConnect::connect2db($errorMessage);
             if (!$link)
                 return $errorMessage;
 
-            $query = $link->prepare("SELECT * FROM User u
-         WHERE email = :email");
+            $query = $link->prepare("SELECT t.id_training as id, t.name as name,t.location as location, t.deadline as deadline, p.status as status
+                                            FROM User u
+                                            join Participate p on p.id_user = u.id_user
+                                            join Training t on t.id_training = p.id_training
+                                            WHERE u.id_user = :idUser and p.status IN('DONE','IN PROGRESS')");
             $query->bindValue(':idUser', $idUser);
             $query->execute();
 
@@ -162,6 +166,7 @@ class DbUserRequests
             DbConnect::disconnect($link);
         }
     }
+
     static function storeNewUserWithPassword($firstname, $name, $email, $idManager, $password)
     {
         try {
@@ -249,11 +254,9 @@ class DbUserRequests
             $query = $link->prepare("delete from User where id_user = :idUser");
             $query->bindValue(":idUser", $idUser);
             $query->execute();
-        } catch (PDOException $exception)
-        {
+        } catch (PDOException $exception) {
             return $exception->getMessage();
-        } finally
-        {
+        } finally {
             DbConnect::disconnect($link);
         }
     }
@@ -352,7 +355,7 @@ class DbUserRequests
             if (!$link)
                 return $errorMessage;
 
-            foreach($idFunctions as $idFunction) {
+            foreach ($idFunctions as $idFunction) {
                 $query = $link->prepare("INSERT INTO Have(id_user, id_function) VALUES (:idUser, :idFunction);");
                 $query->bindValue(":idUser", $idUser);
                 $query->bindValue(":idFunction", $idFunction);
@@ -406,7 +409,7 @@ class DbUserRequests
             if (!$link)
                 return $errorMessage;
 
-            foreach($idTrainings as $idTraining) {
+            foreach ($idTrainings as $idTraining) {
                 $query = $link->prepare("INSERT INTO Training(id_user, id_training) VALUES (:idUser, :idTraining);");
                 $query->bindValue(":idUser", $idUser);
                 $query->bindValue(":idTraining", $idTraining);
@@ -421,7 +424,7 @@ class DbUserRequests
 
     static function getUserLinksParticipation($idUser)
     {
-        try{
+        try {
             $link = DbConnect::connect2db($errorMessage);
             if (!$link)
                 return $errorMessage;
@@ -434,11 +437,9 @@ class DbUserRequests
             $query->bindValue(":idUser", $idUser);
             $query->execute();
             return $query->fetchAll(PDO::FETCH_ASSOC);
-        } catch(PDOException $e)
-        {
+        } catch (PDOException $e) {
             return $e->getMessage();
-        } finally
-        {
+        } finally {
             DbConnect::disconnect($link);
         }
     }
