@@ -197,7 +197,7 @@ footer{
     }
 }
 .error-message{
-    display: none;
+    /*display: none;*/
     color: red;
     font-size: 20px;
     margin-top: 10px;
