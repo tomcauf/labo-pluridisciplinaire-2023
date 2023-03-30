@@ -3,7 +3,24 @@ require_once "DbConnect.inc.php";
 
 class DbTrainingRequests
 {
+    static function getAllTrainings()
+    {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            if ($link == null) {
+                return $errorMessage;
+            }
 
+            $query = $link->prepare("SELECT * FROM Training");
+            $query->execute();
+            $results = $query->fetchAll();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+            return $results;
+        }
+    }
     static function addTrainingCourse($name, $location, $duration, $deadline, $certificate_deadline)
     {
         try {
