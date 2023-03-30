@@ -1,6 +1,6 @@
 <?php
 require_once "DbConnect.inc.php";
-require_once "../libs/email/EmailSender.inc.php";
+require_once "libs/email/EmailSender.inc.php";
 
 class DbUserRequests
 {

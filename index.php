@@ -1,14 +1,7 @@
-
 <?php
 include_once 'libs/repository/DbUserRequests.inc.php';
-session_start();
+include 'html/inc/session.inc.php';
 
-
-if(isset($_SESSION['user'])){
-    header('Location: html/dashboard.php');
-}
-
-session_destroy();
 /**
  * @param $email string the email to verify
  * @param $password string the password to verify
