@@ -240,7 +240,6 @@ footer{
     display: flex;
     justify-content: space-between; /* Aligner les éléments horizontalement */
     align-items: center;
-    border-bottom: 1px solid #E5E5E5;
 }
 .box-title .title{
     flex: 1;
@@ -254,6 +253,9 @@ footer{
     /* flex: 1; */
     margin-left: auto;
     margin-right: 16px;
+}
+.box-underline{
+    border-bottom: 1px solid #E5E5E5;
 }
 /*=============== FOOTER ===============*/
 footer{

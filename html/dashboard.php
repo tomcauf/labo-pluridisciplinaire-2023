@@ -16,9 +16,15 @@
             <h1 class="title text">Dashboard</h1>
             <div class="boxs">
                 <div class="box box-training">
-                    <div class="box-title">
+                    <div class="box-title box-underline">
                         <h2 class="title text">List of Training</h2>
                         <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+                    </div>
+                    <div>
+                        <div class="box-underline">
+                            <p>mok</p>
+                            <p>mokmok</p>
+                        </div>
                     </div>
                 </div>
                 <div class="box box-accreditation">
