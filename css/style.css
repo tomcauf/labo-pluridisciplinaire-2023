@@ -294,7 +294,7 @@ footer{
 .submit-create-user{
     background-color: var(--tertiary-color);
 }
-.form-user{
+.form-user, .form-training{
     display: flex;
     flex-direction: column;
     align-items: center;
