@@ -1,28 +1,31 @@
 <?php
 
-    require_once '../libs/repository/DbTrainingRequests.inc.php';
+require_once '../libs/repository/DbTrainingRequests.inc.php';
+require_once '../inc/formAddClient.inc.php';
 
-    session_start();
-    if(!isset($_SESSION['user'])){
-        header('Location: ../index.php');
-    }
+include_once '../inc/formAddClient.inc.php';
 
-    function getALLTrainings(){
-        $allTrainnig = DbTrainingRequests::getALLTrainings();
 
-        foreach ($allTrainnig as $training){
-            echo "<tr>
-            <td>".$training['name']."</td>
-            <td>".$training['location']."</td>
-            <td>".$training['duration']."</td>
-            <td>".$training['deadline']."</td>
-            <td>".$training['confirmation']."</td>
-            <td>".$training['active']."</td>
-            <td>".$training['certificate_deadline']."</td>
+if (!isset($_SESSION['user'])) {
+    header('Location: ../index.php');
+}
+
+function getALLTrainings()
+{
+    $allTrainnig = DbTrainingRequests::getALLTrainings();
+
+    foreach ($allTrainnig as $training) {
+        echo "<tr>
+            <td>" . $training['name'] . "</td>
+            <td>" . $training['location'] . "</td>
+            <td>" . $training['duration'] . "</td>
+            <td>" . $training['deadline'] . "</td>
+            <td>" . $training['confirmation'] . "</td>
+            <td>" . $training['active'] . "</td>
+            <td>" . $training['certificate_deadline'] . "</td>
             </tr>";
-        }
     }
-
+}
 
 
 ?>
@@ -35,24 +38,28 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <header>
-        connecté
+<header>
+    connecté
 
-    </header>
-    <main>
-        <table>
-            <tr>
-                <th>name</th>
-                <th>location</th>
-                <th>duration</th>
-                <th>deadline</th>
-                <th>confirmation</th>
-                <th>active</th>
-                <th>certificate_deadline</th>
-            </tr>
-            <?php getALLTrainings(); ?>
-        </table>
+</header>
+<main>
+    <?php
+    //getALLTrainings();
+    printForm();
+    ?>
+    <!--        <table>-->
+    <!--            <tr>-->
+    <!--                <th>name</th>-->
+    <!--                <th>location</th>-->
+    <!--                <th>duration</th>-->
+    <!--                <th>deadline</th>-->
+    <!--                <th>confirmation</th>-->
+    <!--                <th>active</th>-->
+    <!--                <th>certificate_deadline</th>-->
+    <!--            </tr>-->
+    <!--            -->
+    <!--        </table>-->
 
-    </main>
+</main>
 </body>
 </html>

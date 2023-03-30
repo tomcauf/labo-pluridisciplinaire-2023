@@ -22,16 +22,7 @@ class DbUserRequests
             $query->execute();
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             DbConnect::disconnect($link);
-            $result = array_map(function ($user) {
-                $user['mot_de_passe'] = null;
-                return new User($user['id_user'],
-                    $user['firstname'],
-                    $user['name'],
-                    $user['email'],
-                    $user['active'],
-                    $user['manager']);
-            }, $result);
-            DbConnect::disconnect($link);
+
             return $result;
         } catch (PDOException $e) {
             return $e->getMessage();
@@ -137,13 +128,8 @@ class DbUserRequests
     }
 
 
-    /**
-     * store a new user in the database
-     * @param $user User user to store the manager id can be null
-     * @param $password string password of the user that will be hashed
-     * @return string|void error message or nothing if everything is ok
-     */
-    static function storeNewUser($user, $password)
+
+    static function storeNewUser($firstName,$name,$email, $password,$idManager)
     {
         try {
             $link = DbConnect::connect2db($errorMessage);
@@ -153,11 +139,11 @@ class DbUserRequests
 
             $query = $link->prepare("INSERT INTO User(firstname, name, email, password, active, manager) 
                                             VALUES (:firstname, :name, :email, :password, 1, :manager)");
-            $query->bindValue(':firstname', $user->firstName);
-            $query->bindValue(':name', $user->name);
-            $query->bindValue(':email', $user->email);
+            $query->bindValue(':firstname', $firstName);
+            $query->bindValue(':name', $name);
+            $query->bindValue(':email', $email);
             $query->bindValue('password', $hashPassword);
-            $query->bindValue(':manager', $user->idManager);
+            $query->bindValue(':manager', $idManager);
 
             $query->execute();
         } catch (PDOException $e) {
