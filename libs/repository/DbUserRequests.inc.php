@@ -1,6 +1,7 @@
 <?php
 require_once "DbConnect.inc.php";
-require_once "../email/EmailSender.inc.php";
+
+require_once "../libs/email/EmailSender.inc.php";
 
 class DbUserRequests
 {
@@ -48,6 +49,25 @@ class DbUserRequests
             $result = $query->fetch(PDO::FETCH_ASSOC);
 
             return ($result && password_verify($password, $result['password'])) ? intval($result['id_user']) : false;
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
+    }
+
+    static function getAllParticipantTraining($idUser){
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            if (!$link)
+                return $errorMessage;
+
+            $query = $link->prepare("SELECT * FROM User u
+         WHERE email = :email");
+            $query->bindValue(':idUser', $idUser);
+            $query->execute();
+
+            return $query->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return $e->getMessage();
         } finally {
@@ -112,7 +132,6 @@ class DbUserRequests
      * @param $firstname string that's the firstname of the user
      * @param $name string that's the family name of the user
      * @param $email string that's the email of the user
-     * @param $password string that's the password in plaintext of the user
      * @param $idManager integer that's the id of the manager of the user
      * @return string|void error message or nothing if everything is ok
      */
@@ -125,6 +144,31 @@ class DbUserRequests
 
 
             $hashPassword = self::generatePassword($email);
+
+            $query = $link->prepare("INSERT INTO User(firstname, name, email, password, active, manager) 
+                                            VALUES (:firstname, :name, :email, :password, 1, :manager)");
+            $query->bindValue(':firstname', $firstname);
+            $query->bindValue(':name', $name);
+            $query->bindValue(':email', $email);
+            $query->bindValue('password', $hashPassword);
+            $query->bindValue(':manager', $idManager);
+
+            $query->execute();
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
+    }
+    static function storeNewUserWithPassword($firstname, $name, $email, $idManager, $password)
+    {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            if (!$link)
+                return $errorMessage;
+
+
+            $hashPassword = password_hash($password, PASSWORD_DEFAULT);;
 
             $query = $link->prepare("INSERT INTO User(firstname, name, email, password, active, manager) 
                                             VALUES (:firstname, :name, :email, :password, 1, :manager)");
@@ -281,7 +325,7 @@ class DbUserRequests
 
             $query = $link->prepare("SELECT f.id_function, f.name, f.role_level
                                             FROM Function f
-                                            JOIN Have h AS h.id_function = f.id_function
+                                            JOIN Have h ON h.id_function = f.id_function
                                             WHERE h.id_user = :idUser");
             $query->bindValue(":idUser", $idUser);
             $query->execute();

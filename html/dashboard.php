@@ -1,6 +1,17 @@
-
 <?php
 require_once "../libs/repository/DbTrainingRequests.inc.php";
+require_once "../libs/repository/DbUserRequests.inc.php";
+require_once "../libs/repository/DbFunctionsRequests.inc.php";
+require_once "../libs/repository/DbAccreditationRequests.inc.php";
+
+$idUser = 1;
+
+//var_dump(DbUserRequests::storeNewUserWithPassword("test", "te", "test", 1,  "test" ));
+
+//session_start();
+//if (!isset($_SESSION['user'])) {
+//    header('Location: ../index.php');
+//}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -13,44 +24,46 @@ require_once "../libs/repository/DbTrainingRequests.inc.php";
     <title>Dashboard</title>
 </head>
 <body>
-    <?php include 'inc/header.inc.php'; ?>
-    <main class="main">
-        <?php include 'inc/menu.inc.php'; ?>
-        <div class="dashboard">
-            <h1 class="title text">Dashboard</h1>
-            <div class="boxs">
-                <div class="box box-training">
-                    <div class="box-title box-underline">
-                        <h2 class="title text">List of Training</h2>
-                        <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
-                    </div>
-                    <div>
-                        <div class="box-underline box-title box-flex">
-                            <p>Name</p>
-                            <p>Location</p>
-                            <p>Date</p>
-                        </div>
-                        <div class="box-underline box-element box-flex">
-                            <p class="nom">test Formation</p>
-                            <p class="location">test</p>
-                            <p class="date">2023-03-08</p>
-                        </div>
-                    </div>
+<?php include 'inc/header.inc.php'; ?>
+<main class="main">
+    <?php include 'inc/menu.inc.php'; ?>
+    <div class="dashboard">
+        <h1 class="title text">Dashboard</h1>
+        <div class="boxs">
+            <div class="box box-training">
+                <div class="box-title box-underline">
+                    <h2 class="title text">List of Training</h2>
+                    <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
                 </div>
                 <div>
+                    <div class="box-underline box-title box-flex">
+                        <p>Name</p>
+                        <p>Location</p>
+                        <p>Date</p>
+                    </div>
                     <?php
-                    //TODO changer pour celui de l'utilisateur
-                    $allTraining = DbTrainingRequests::getAllTrainings();
+
+                    $allFunctions = DbUserRequests::getUserLinksFunction($idUser);
+                    $allTraining = array();
+
+                    foreach ($allFunctions as $function) {
+                        $allTraining = array_merge($allTraining, DbFunctionsRequests::getFunctionLinksTraining($function['id_function']));
+                    }
+
                     $allTraining = array_filter($allTraining, function ($training) {
                         return $training['active'] == 1;
                     });
-                    foreach ($allTraining as $training) {
-                        echo '<div class="box-underline" onclick="goTo(' . $training['id_training'] . ')">';
-                        echo "<p>" . $training['name'] . "</p>";
-                        echo "<p>" . $training['location'] . "</p>";
-                        echo "<p>" . $training['deadline'] . "</p>";
-                        echo "</div>";
-                    }
+                    if (empty($allTraining))
+                        echo "<p>There is no training</p>";
+                    else
+                        foreach ($allTraining as $training) {
+                            echo '<div class="box-underline box-element box-flex" onclick="goTo(' . $training['id_training'] . ')">';
+                            echo "<p>" . $training['name'] . "</p>";
+                            echo "<p>" . $training['location'] . "</p>";
+                            echo "<p>" . $training['deadline'] . "</p>";
+                            echo "</div>";
+                        }
+
                     ?>
                 </div>
             </div>
@@ -60,10 +73,24 @@ require_once "../libs/repository/DbTrainingRequests.inc.php";
                     <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
                 </div>
                 <div>
+                    <div class="box-underline box-title box-flex">
+                        <p>Name</p>
+                    </div>
                     <?php
-                    //TODO changer pour celui de l'utilisateur
+                    $allAccreditation = DbAccreditationRequests::getAcreditationOfUser($idUser);
 
-                    $allTraining = DbTrainingRequests::getAllTrainings();
+                    if (empty($allAccreditation))
+                        echo "<div class='box-underline box-element box-flex'>
+                                <p>There is no accreditation</p>
+                                </div>";
+                    else
+                        foreach ($allAccreditation as $accreditation) {
+                            echo '<div class="box-underline box-element box-flex" onclick="goTo(' . $accreditation['id_accreditation'] . ')">';
+                            echo "<p>" . $accreditation['name'] . "</p>";
+                            echo "</div>";
+                        }
+
+
                     ?>
                 </div>
             </div>
@@ -72,6 +99,9 @@ require_once "../libs/repository/DbTrainingRequests.inc.php";
                     <h2 class="title text">On going Training</h2>
                     <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
                 </div>
+                <?php
+                $allTraining = DbUserRequests::getAllParticipantTraining($idUser);
+                ?>
             </div>
             <div class="box box-completed-training">
                 <div class="box-title">
