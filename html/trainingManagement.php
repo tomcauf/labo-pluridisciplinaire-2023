@@ -22,7 +22,7 @@
                     <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
                 </div>
                 <div>
-                    <div class="box-underline box-element">
+                    <div class="box-underline box-element box-flex">
                         <p>nom</p>
                         <p>localisation</p>
                         <p>function</p>
