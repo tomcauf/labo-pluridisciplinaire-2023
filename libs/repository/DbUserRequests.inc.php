@@ -1,6 +1,10 @@
 <?php
 require_once "DbConnect.inc.php";
-require_once "libs/email/EmailSender.inc.php";
+if (basename($_SERVER['PHP_SELF']) == 'index.php') {
+    require_once "libs/email/EmailSender.inc.php";
+} else {
+    require_once "../libs/email/EmailSender.inc.php";
+}
 
 class DbUserRequests
 {
@@ -46,7 +50,6 @@ class DbUserRequests
             $query->execute();
 
             $result = $query->fetch(PDO::FETCH_ASSOC);
-
             return ($result && password_verify($password, $result['password'])) ? intval($result['id_user']) : false;
         } catch (PDOException $e) {
             return $e->getMessage();
@@ -54,7 +57,7 @@ class DbUserRequests
             DbConnect::disconnect($link);
         }
     }
-
+    
     static function getAllParticipantTraining($idUser){
         try {
             $link = DbConnect::connect2db($errorMessage);

@@ -2,12 +2,9 @@
 include_once 'libs/repository/DbUserRequests.inc.php';
 session_start();
 
-
 if(isset($_SESSION['user'])){
     header('Location: html/dashboard.php');
 }
-
-session_destroy();
 /**
  * @param $email string the email to verify
  * @param $password string the password to verify
@@ -33,7 +30,7 @@ if(isset($_POST['email']) && isset($_POST['password'])){
         }else {
             session_start();
             $_SESSION['user'] = $result;
-            header('Location: html/home.php');
+            header('Location: html/dashboard.php');
         }
     } else {
         $errorMessage = "Please fill all the fields";
@@ -56,9 +53,7 @@ if(isset($_POST['email']) && isset($_POST['password'])){
     <title>Trasis - Sign In</title>
 </head>
 <body>
-<header class="top-nav header">
-    <img class="logo" src="assets/images/logoTrasis.svg" alt="Logo Trasis">
-</header>
+<?php include('html/inc/header.inc.php'); ?>
 <main>
     <h1 class="title-sign text">Hello</h1>
     <h2 class="subtitle-sign text">Sign in to your account</h2>
