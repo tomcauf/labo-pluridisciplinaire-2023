@@ -1,9 +1,30 @@
 <?php
+
+    require_once '../libs/repository/DbTrainingRequests.inc.php';
+
     session_start();
     if(!isset($_SESSION['user'])){
         header('Location: ../index.php');
     }
-    var_dump($_SESSION);
+
+    function getALLTrainings(){
+        $allTrainnig = DbTrainingRequests::getALLTrainings();
+
+        foreach ($allTrainnig as $training){
+            echo "<tr>
+            <td>".$training['name']."</td>
+            <td>".$training['location']."</td>
+            <td>".$training['duration']."</td>
+            <td>".$training['deadline']."</td>
+            <td>".$training['confirmation']."</td>
+            <td>".$training['active']."</td>
+            <td>".$training['certificate_deadline']."</td>
+            </tr>";
+        }
+    }
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -19,6 +40,18 @@
 
     </header>
     <main>
+        <table>
+            <tr>
+                <th>name</th>
+                <th>location</th>
+                <th>duration</th>
+                <th>deadline</th>
+                <th>confirmation</th>
+                <th>active</th>
+                <th>certificate_deadline</th>
+            </tr>
+            <?php getALLTrainings(); ?>
+        </table>
 
     </main>
 </body>
