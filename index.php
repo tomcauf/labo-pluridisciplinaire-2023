@@ -1,10 +1,11 @@
+
 <?php
 include_once 'libs/repository/DbUserRequests.inc.php';
 session_start();
 
 
 if(isset($_SESSION['user'])){
-    header('Location: html/home.php');
+    header('Location: html/dashboard.php');
 }
 
 session_destroy();
@@ -43,6 +44,7 @@ if(isset($_POST['email']) && isset($_POST['password'])){
 
 
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
