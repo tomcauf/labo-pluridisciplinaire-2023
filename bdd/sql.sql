@@ -34,6 +34,7 @@ CREATE TABLE `Trainer` (
                            `id_training` int(11) NOT NULL
 );
 
+
 CREATE TABLE `Operate` (
                            `id_function` int(11) NOT NULL,
                            `id_training` int(11) NOT NULL
