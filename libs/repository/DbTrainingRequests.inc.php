@@ -1,8 +1,5 @@
 <?php
 require_once "DbConnect.inc.php";
-require_once "libs/models/Training.php";
-
-use models\Training;
 
 class DbTrainingRequests
 {
