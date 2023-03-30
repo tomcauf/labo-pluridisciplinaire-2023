@@ -62,7 +62,7 @@
                         </a>
                     </li>
                     <li class="nav-link">
-                        <a href="#">
+                        <a href="/html/inc/signout.inc.php">
                             <img src="../assets/images/exit_to_app.svg" class="nav-icon" alt="Icon Quitter">
                             <span class="text nav-text">Quitter</span>
                         </a>
