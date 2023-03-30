@@ -5,7 +5,7 @@ session_start();
 
 
 if(isset($_SESSION['user'])){
-    header('Location: html/home.php');
+    header('Location: html/dashboard.php');
 }
 
 session_destroy();
