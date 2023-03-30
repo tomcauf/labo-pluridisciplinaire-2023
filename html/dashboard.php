@@ -8,10 +8,7 @@ $idUser = 1;
 
 //var_dump(DbUserRequests::storeNewUserWithPassword("test", "te", "test", 1,  "test" ));
 
-//session_start();
-//if (!isset($_SESSION['user'])) {
-//    header('Location: ../index.php');
-//}
+include 'inc/session.inc.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -105,14 +102,13 @@ $idUser = 1;
                 <?php
                 $allTraining = DbUserRequests::getAllParticipantTraining($idUser);
                 ?>
-            </div>
-            <div class="box box-completed-training">
-                <div class="box-title">
-                    <h2 class="title text">Finish Training</h2>
-                    <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+                <div class="box box-completed-training">
+                    <div class="box-title">
+                        <h2 class="title text">Finish Training</h2>
+                        <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+                    </div>
                 </div>
             </div>
-        </div>
         </div>
     </main>
     <script>

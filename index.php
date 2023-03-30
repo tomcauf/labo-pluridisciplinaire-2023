@@ -54,7 +54,7 @@ if(isset($_POST['email']) && isset($_POST['password'])){
 </head>
 <body>
 <?php include('html/inc/header.inc.php'); ?>
-<main>
+<main class="main-index">
     <h1 class="title-sign text">Hello</h1>
     <h2 class="subtitle-sign text">Sign in to your account</h2>
     <div class="error">
