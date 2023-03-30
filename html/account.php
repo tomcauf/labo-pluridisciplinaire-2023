@@ -1,6 +1,6 @@
 <?php
 include 'inc/session.inc.php';
-
+require_once '../libs/repository/DbUserRequests.inc.php'
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -25,7 +25,19 @@ include 'inc/session.inc.php';
                     <h2 class="title text">Account Information</h2>
                 </div>
                 <div>
-                    <p>toute les info</p>
+                    <?php
+                        $userId = $_SESSION['user'];
+                        $user = DbUserRequests::getUserById($userId);
+                        $userFunctions = DbUserRequests::getUserLinksFunction($userId);
+                        echo '<p>Name : ' . $user['name'] . '</p>';
+                        echo '<p>Firstname : ' . $user['firstname'] . '</p>';
+                        echo '<p>Email : ' . $user['email'] . '</p>';
+                        echo '<p>Functions : ';
+                        foreach ($userFunctions as $function) {
+                            echo $function['name'] . ";";
+                        }
+                        echo '</p>';
+                    ?>
                     <button>Edit</button>
                 </div>
             </div>
