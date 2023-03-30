@@ -11,16 +11,37 @@ class DbTrainingRequests
                 return $errorMessage;
             }
 
-            $query = $link->query("SELECT * FROM Training");
-            return $query->fetchAll(PDO::FETCH_ASSOC);
-        }catch (PDOException $e) {
-            return $e->getMessage();
+            $query = $link->prepare("SELECT * FROM Training");
+            $query->execute();
+            return $query->fetchAll();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
         } finally {
             DbConnect::disconnect($link);
         }
     }
 
-    static function addTrainingCourse($name, $description, $location, $duration, $deadline, $certificate_deadline, ...$trainers)
+    static function getTrainingActiveFor($id)
+    {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            if ($link == null) {
+                return $errorMessage;
+            }
+
+            $query = $link->prepare("SELECT * FROM Training WHERE id_training = :id");
+            $query->bindValue(":id", $id);
+            $query->execute();
+            return $query->fetch();
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
+    }
+
+
+    static function addTrainingCourse($name, $description, $location, $duration, $deadline, $certificate_deadline)
     {
         try {
             $link = DbConnect::connect2db($errorMessage);
@@ -93,7 +114,7 @@ class DbTrainingRequests
             $query = $link->prepare("SELECT required_ID FROM RequiredTraining WHERE id_training = :idTraining");
             $query->bindValue(":idTraining", $idTraining);
             $query->execute();
-            $results = $query->fetchAll();
+            return $query->fetchAll();
         } catch (PDOException $e) {
             echo $e->getMessage();
         } finally {
@@ -173,7 +194,7 @@ class DbTrainingRequests
             $query = $link->prepare("SELECT id_function FROM Operate WHERE id_training = :idTraining");
             $query->bindValue(":idTraining", $idTraining);
             $query->execute();
-            $results = $query->fetchAll();
+            return $query->fetchAll();
         } catch (PDOException $exception) {
             echo $exception->getMessage();
         } finally {

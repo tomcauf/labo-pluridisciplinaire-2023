@@ -42,7 +42,7 @@ $users = DbUserRequests::getAllUser();
                                 $name = $user['name'] . " " . $user['firstname'];
                                 $functions = DbUserRequests::getUserLinksFunction($user['id_user']);
                                 $functionString = "";
-                                $imageLink = ($user['active']) ? "../assets/images/radio_button_green.svg" : "../assets/images/radio_button_red.svg";
+                                $imageLink = ($user['active']) ? "/assets/images/radio_button_green.svg" : "../assets/images/radio_button_red.svg";
                                 foreach($functions as $function) {
                                     $functionString .= $function['name']."";
                                 }

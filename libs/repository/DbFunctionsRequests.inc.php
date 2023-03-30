@@ -72,7 +72,7 @@ class DbFunctionsRequests
             $link = DbConnect::connect2db($errorMessage);
             $query = $link->prepare("SELECT t.id_training, t.name, t.location, t.duration, t.deadline, t.active, t.certificate_deadline
                                             FROM Training t 
-                                            JOIN Operate o AS o.id_training = t.id_training
+                                            JOIN Operate o ON o.id_training = t.id_training
                                             WHERE o.id_function = :idFunction");
             $query->bindValue(":idFunction", $idFunction);
             $query->execute();

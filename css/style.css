@@ -68,7 +68,7 @@ main{
     flex-direction: column;
     justify-content: center;
 }
-.main-sign{
+.main-sign, .main-index{
     align-items: center;
 }
 footer{

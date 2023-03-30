@@ -1,3 +1,7 @@
+<?php
+include 'inc/session.inc.php';
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
