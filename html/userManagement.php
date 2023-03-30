@@ -32,11 +32,21 @@
                             <p>Function</p>
                             <p>Actif</p>
                         </div>
-                        <div class="box-underline box-element box-flex">
-                            <p>Tom Caufrier</p>
-                            <p>CEO</p>
-                            <img src="/assets/images/radio_button_green.svg" class="radio-button" alt="Actif">
-                        </div>
+                        <?php
+                            foreach($users as $user) {
+                                $name = $user['name'] . " " . $user['firstname'];
+                                $functions = DbUserRequests::getUserLinksFunction($user['id_user']);
+                                $functionString = "";
+                                $imageLink = ($user['active']) ? "/assets/images/radio_button_green.svg" : "../assets/images/radio_button_red.svg";
+                                foreach($functions as $function) {
+                                    $functionString .= $function['name']."";
+                                }
+                                echo "<div class='box-underline box-element box-flex'
+                                        <p>$name</p>
+                                        <p>$functionString</p>
+                                        <img src='$imageLink' alt='connection state'></div>";
+                            }
+                        ?>
                     </div>
                 </div>
                 <div class="box box-management">

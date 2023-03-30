@@ -281,7 +281,7 @@ class DbUserRequests
 
             $query = $link->prepare("SELECT f.id_function, f.name, f.role_level
                                             FROM Function f
-                                            JOIN Have h AS h.id_function = f.id_function
+                                            JOIN Have h ON h.id_function = f.id_function
                                             WHERE h.id_user = :idUser");
             $query->bindValue(":idUser", $idUser);
             $query->execute();
