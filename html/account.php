@@ -34,11 +34,10 @@ require_once '../libs/repository/DbUserRequests.inc.php'
                         echo '<p>Email : ' . $user['email'] . '</p>';
                         echo '<p>Functions : ';
                         foreach ($userFunctions as $function) {
-                            echo $function['name'] . " ";
+                            echo $function['name'] . ";";
                         }
                         echo '</p>';
                     ?>
-                    <p>toutes les info</p>
                     <button>Edit</button>
                 </div>
             </div>
