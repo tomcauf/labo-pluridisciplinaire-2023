@@ -130,6 +130,29 @@ include 'inc/session.inc.php';
                     <h2 class="title text">Finish Training</h2>
                     <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
                 </div>
+                <div>
+                    <div class="box-underline box-title box-flex">
+                        <p>Name</p>
+                        <p>Location</p>
+                        <p>Date</p>
+                    </div>
+                    <?php
+                    $allTraining = DbUserRequests::getAllParticipantTrainingValide($idUser);
+                    if (empty($allTraining))
+                        echo "<div class='box-underline box-element box-flex'>
+                                <p>There is no ongoing training</p>
+                                </div>";
+                    else {
+                        foreach ($allTraining as $training) {
+                            echo '<div class="box-underline box-element box-flex" onclick="goTo(' . $training['id'] . ')">';
+                            echo "<p>" . $training['name'] . "</p>";
+                            echo "<p>" . $training['location'] . "</p>";
+                            echo "<p>" . $training['deadline'] . "</p>";
+                            echo "</div>";
+                        }
+                    }
+                    ?>
+                </div>
             </div>
         </div>
     </div>

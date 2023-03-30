@@ -64,11 +64,33 @@ class DbUserRequests
             if (!$link)
                 return $errorMessage;
 
-            $query = $link->prepare("SELECT t.id_training as id, t.name as name,t.location as location, t.deadline as deadline, p.status as status
+            $query = $link->prepare("SELECT t.id_training as id, t.name as name, t.location as location, t.deadline as deadline, p.status as status
                                             FROM User u
                                             join Participate p on p.id_user = u.id_user
                                             join Training t on t.id_training = p.id_training
                                             WHERE u.id_user = :idUser and p.status IN('DONE','IN PROGRESS')");
+            $query->bindValue(':idUser', $idUser);
+            $query->execute();
+
+            return $query->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
+    }
+    static function getAllParticipantTrainingValide($idUser)
+    {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            if (!$link)
+                return $errorMessage;
+
+            $query = $link->prepare("SELECT t.id_training as id, t.name as name, t.location as location, t.deadline as deadline
+                                            FROM User u
+                                            join Participate p on p.id_user = u.id_user
+                                            join Training t on t.id_training = p.id_training
+                                            WHERE u.id_user = :idUser and p.status = 'VALIDATED'");
             $query->bindValue(':idUser', $idUser);
             $query->execute();
 
@@ -420,6 +442,7 @@ class DbUserRequests
             DbConnect::disconnect($link);
         }
     }
+
 
     static function getUserLinksParticipation($idUser)
     {
