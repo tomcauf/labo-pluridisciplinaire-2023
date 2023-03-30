@@ -10,7 +10,8 @@ class DbUserRequests
     /**
      * //TODO mot_de_passe ? Renvoie qu'un seul user ?
      * a generic function to get all user from the database
-     * @return User[]|string array of user or error message
+     * @return user[]|string array of array with the data of users
+     *                      or error message
      */
     static function getAllUser()
     {
@@ -22,7 +23,6 @@ class DbUserRequests
             $query->execute();
             $result = $query->fetchAll(PDO::FETCH_ASSOC);
             DbConnect::disconnect($link);
-
             return $result;
         } catch (PDOException $e) {
             return $e->getMessage();
@@ -73,7 +73,7 @@ class DbUserRequests
     /**
      * get the user with the id
      * @param $id string email of the user
-     * @return User|string|false an object with the data of the user if the coonection is ok
+     * @return user[]|string|false a table with the data of the user if the connection is ok
      *                           or error message
      *                           or false if the password is not correct
      */
@@ -90,12 +90,7 @@ class DbUserRequests
             $result = $query->fetch(PDO::FETCH_ASSOC);
             DbConnect::disconnect($link);
             if ($result) {
-                return new User($result['id_user'],
-                    $result['firstname'],
-                    $result['name'],
-                    $result['email'],
-                    $result['active'],
-                    $result['manager']);
+                return $result;
             } else {
                 return false;
             }
@@ -107,6 +102,11 @@ class DbUserRequests
 
     }
 
+    /**
+     * @param $email string that's the email of the user
+     * @return mixed|string a table with the data of the user
+     *                      or an error message
+     */
     static function getUserByEmail($email)
     {
         try {
@@ -127,8 +127,15 @@ class DbUserRequests
     }
 
 
-
-    static function storeNewUser($firstName,$name,$email, $password,$idManager)
+    /**
+     * @param $firstname string that's the firstname of the user
+     * @param $name string that's the family name of the user
+     * @param $email string that's the email of the user
+     * @param $password string that's the password in plaintext of the user
+     * @param $idManager integer that's the id of the manager of the user
+     * @return string|void error message or nothing if everything is ok
+     */
+    static function storeNewUser($firstname, $name, $email, $password, $idManager)
     {
         try {
             $link = DbConnect::connect2db($errorMessage);
@@ -138,7 +145,7 @@ class DbUserRequests
 
             $query = $link->prepare("INSERT INTO User(firstname, name, email, password, active, manager) 
                                             VALUES (:firstname, :name, :email, :password, 1, :manager)");
-            $query->bindValue(':firstname', $firstName);
+            $query->bindValue(':firstname', $firstname);
             $query->bindValue(':name', $name);
             $query->bindValue(':email', $email);
             $query->bindValue('password', $hashPassword);
@@ -159,8 +166,8 @@ class DbUserRequests
      * @param $name string name of the user
      * @param $email string email of the user
      * @param $manager int id of the manager
-     * @return string|User error message
-     *                     or an object with the data of the user
+     * @return string|user[] error message
+     *                     or a table with the data of the user
      */
     static function updateUser($idUser, $firstname, $name, $email, $manager)
     {
@@ -181,7 +188,13 @@ class DbUserRequests
                 return "error unable to update user";
             }
             DbConnect::disconnect($link);
-            return new User($idUser, $firstname, $name, $email, 1, $manager);
+            $result['id_user'] = $idUser;
+            $result['firstname'] = $firstname;
+            $result['name'] = $name;
+            $result['email'] = $email;
+            $result['manager'] = $manager;
+
+            return $result;
         } catch (PDOException $e) {
             return $e->getMessage();
         } finally {
@@ -209,6 +222,9 @@ class DbUserRequests
             if (!$query->execute())
                 return "error unable to update user";
 
+            else {
+
+            }
         } catch (PDOException $e) {
             return $e->getMessage();
         } finally {
@@ -241,6 +257,9 @@ class DbUserRequests
             if (!$query->execute())
                 return "error unable to update user";
 
+            else {
+
+            }
         } catch (PDOException $e) {
             return $e->getMessage();
         } finally {
@@ -248,6 +267,12 @@ class DbUserRequests
         }
     }
 
+    /**
+     * @param $idUser integer that's the id of the user
+     * @return array|false|string an array of the functions that the user has
+     *                             or false if there isn't any
+     *                              or an error string
+     */
     //TODO faire un join pour récup plus d'infos qu'une ID
     static function getUserLinksFunction($idUser)
     {
@@ -258,13 +283,19 @@ class DbUserRequests
             $query->execute();
             $results = $query->fetchAll();
         } catch (PDOException $exception) {
-            echo $exception->getMessage();
+            return $exception->getMessage();
         } finally {
             DbConnect::disconnect($link);
             return (isset($results)) ? $results : "Something went wrong with the request";
         }
     }
 
+    /**
+     * @param $idUser integer that's the id of the concerned user
+     * @param ...$idFunctions n integer variables of the functions that the user has
+     * @return void|string void if everything is good
+     *                      or an error string
+     */
     static function addLinksToUserFunction($idUser, ...$idFunctions)
     {
         try {
@@ -277,12 +308,18 @@ class DbUserRequests
                 $query->execute();
             }
         } catch (PDOException $exception) {
-            echo $exception->getMessage();
+            return $exception->getMessage();
         } finally {
             DbConnect::disconnect($link);
         }
     }
 
+    /**
+     * @param $idUser integer of the concerned user
+     * @return array|false|string associated array of the data of the user
+     *                              or false if there isn't any corresponding data
+     *                              or an error string
+     */
     static function getUserLinksTraining($idUser)
     {
         try {
@@ -290,15 +327,21 @@ class DbUserRequests
             $query = $link->prepare("SELECT id_training FROM Training WHERE id_user = :idUser");
             $query->bindValue(":idUser", $idUser);
             $query->execute();
-            $results = $query->fetchAll();
+            $results = $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $exception) {
-            echo $exception->getMessage();
+            return $exception->getMessage();
         } finally {
             DbConnect::disconnect($link);
             return (isset($results)) ? $results : "Something went wrong with the request";
         }
     }
 
+    /**
+     * @param $idUser integer of the concerned user
+     * @param ...$idTrainings n integer variables of the associated trainings
+     * @return void|string void if everything is good
+     *                      or an error string
+     */
     static function addLinksToUserTraining($idUser, ...$idTrainings)
     {
         try {
@@ -311,7 +354,7 @@ class DbUserRequests
                 $query->execute();
             }
         } catch (PDOException $exception) {
-            echo $exception->getMessage();
+            return $exception->getMessage();
         } finally {
             DbConnect::disconnect($link);
         }

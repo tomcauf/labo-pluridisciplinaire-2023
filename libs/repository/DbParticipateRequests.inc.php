@@ -3,7 +3,13 @@ require_once "DbConnect.inc.php";
 
 class DbParticipateRequests
 {
-    static function addNewParticipation($idUser, $idTraining, $status)
+    /**
+     * @param $idUser integer of the concerned user
+     * @param $idTraining integer of the concerned training
+     * @return string|void an error string
+     *                      or void if everything is good
+     */
+    static function askNewParticipation($idUser, $idTraining)
     {
         try {
             $link = DbConnect::connect2db($errorMessage);
