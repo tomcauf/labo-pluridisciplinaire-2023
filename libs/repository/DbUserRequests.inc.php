@@ -31,12 +31,11 @@ class DbUserRequests
     }
 
     /**
-     * get the data of the user and verify the password
-     * @param $email string email of the user
-     * @param $password string password of the user to verify
-     * @return int|string|false an object with the data of the user if the coonection is ok
-     *                           or error message
-     *                           or false if the password is not correct
+     * @param $email string that's the email of the user
+     * @param $password string that's the plaintext password of the user
+     * @return false|int|string false if password not corresponding,
+     *                          or id of the user
+     *                          or string of error message
      */
     static function getUserDataAndVerifyPsw($email, $password)
     {
@@ -80,7 +79,7 @@ class DbUserRequests
     /**
      * get the user with the id
      * @param $id string email of the user
-     * @return user[]|string|false a table with the data of the user if the connection is ok
+     * @return mixed|string|false a table with the data of the user if the connection is ok
      *                           or error message
      *                           or false if the password is not correct
      */
