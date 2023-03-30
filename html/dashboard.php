@@ -21,7 +21,7 @@
                         <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
                     </div>
                     <div>
-                        <div class="box-underline">
+                        <div class="box-underline box-element">
                             <p>mok</p>
                             <p>mokmok</p>
                         </div>
@@ -33,7 +33,7 @@
                         <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
                     </div>
                 </div>
-                <div class="box box-ongoing-training-">
+                <div class="box box-ongoing-training">
                     <div class="box-title">
                         <h2 class="title text">On going Training</h2>
                         <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">

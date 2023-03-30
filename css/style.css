@@ -200,15 +200,17 @@ footer{
     background: #F9A03F;
 }
 /*======== DASHBOARD ========*/
-.dashboard{
+.dashboard, .user-management{
     /* margin: 0 auto; */
     /* width: auto; */
     /* width: calc(100% - 570px); */
     display: flex;
     flex-direction: column;
     align-items: center;
+    flex: 1;
 }
-.dashboard > .title{
+
+.dashboard, .user-management > .title{
     /* font-size: 50px; */
     margin-top: 30px;
     /* margin-bottom: 50px; */
@@ -230,6 +232,7 @@ footer{
     border: 1px solid #E5E5E5;
     border-radius: 40px;
     margin-top: 30px;
+    overflow-y: scroll;
 }
 .box-title{
     display: flex;
@@ -257,6 +260,14 @@ footer{
 .box-underline{
     border-bottom: 1px solid #E5E5E5;
 }
+.box-element:hover{
+    background-color: #F9F9F9;
+}
+/*======== USER MANAGEMENT ========*/
+.box-management{
+    width: 800px;
+    height: 800px;
+}
 /*=============== FOOTER ===============*/
 footer{
     padding: 1em;
@@ -268,7 +279,7 @@ footer{
 }
 
 /*=============== RESPONSIVE ===============*/
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 790px) {
     .title-sign{
         font-size: 100px;
     }
@@ -307,6 +318,7 @@ footer{
     /*=============== NAV ===============*/
     .side-bar{
         width: 280px;
+        overflow: hidden;
     }
     .nav-icon{
     width: 24px;
@@ -318,6 +330,11 @@ footer{
     }
     .side-bar.close{
         width: 29px;
+    }
+    /*=============== DASHBOARD ===============*/
+    .box{
+        width: 350px;
+        height: 300px;
     }
 }
 .error-message{
