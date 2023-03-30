@@ -1,8 +1,5 @@
 <?php
 require_once "DbConnect.inc.php";
-require_once "libs/models/User.php";
-
-use models\User;
 
 class DbUserRequests
 {
@@ -48,7 +45,7 @@ class DbUserRequests
      * get the data of the user and verify the password
      * @param $email string email of the user
      * @param $password string password of the user to verify
-     * @return User|string|false an object with the data of the user if the coonection is ok
+     * @return int|string|false an object with the data of the user if the coonection is ok
      *                           or error message
      *                           or false if the password is not correct
      */
@@ -67,12 +64,7 @@ class DbUserRequests
             if ($result) {
                 if (password_verify($password, $result['password'])) {
                     $result['password'] = null;
-                    return new User($result['id_user'],
-                        $result['firstname'],
-                        $result['name'],
-                        $result['email'],
-                        $result['active'],
-                        $result['manager']);
+                    return intval($result['id_user']);
                 } else {
                     return false;
                 }
@@ -272,6 +264,75 @@ class DbUserRequests
             }
         } catch (PDOException $e) {
             return $e->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
+    }
+
+    //TODO faire un join pour récup plus d'infos qu'une ID
+    static function getUserLinksFunction($idUser)
+    {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            $query = $link->prepare("SELECT id_function FROM Have WHERE id_user = :idUser");
+            $query->bindValue(":idUser", $idUser);
+            $query->execute();
+            $results = $query->fetchAll();
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+            return $results;
+        }
+    }
+
+    static function addLinksToUserFunction($idUser, ...$idFunctions)
+    {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+
+            foreach($idFunctions as $idFunction) {
+                $query = $link->prepare("INSERT INTO Have(id_user, id_function) VALUES (:idUser, :idFunction);");
+                $query->bindValue(":idUser", $idUser);
+                $query->bindValue(":idFunction", $idFunction);
+                $query->execute();
+            }
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
+    }
+
+    static function getUserLinksTraining($idUser)
+    {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            $query = $link->prepare("SELECT id_training FROM Training WHERE id_user = :idUser");
+            $query->bindValue(":idUser", $idUser);
+            $query->execute();
+            $results = $query->fetchAll();
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+            return $results;
+        }
+    }
+
+    static function addLinksToUserTraining($idUser, ...$idTrainings)
+    {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+
+            foreach($idTrainings as $idTraining) {
+                $query = $link->prepare("INSERT INTO Training(id_user, id_training) VALUES (:idUser, :idTraining);");
+                $query->bindValue(":idUser", $idUser);
+                $query->bindValue(":idTraining", $idTraining);
+                $query->execute();
+            }
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
         } finally {
             DbConnect::disconnect($link);
         }

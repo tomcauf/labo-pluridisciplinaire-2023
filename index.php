@@ -1,6 +1,5 @@
 <?php
 include_once 'libs/repository/DbUserRequests.inc.php';
-include_once 'libs/models/User.php';
 session_start();
 
 
@@ -33,7 +32,7 @@ if(isset($_POST['email']) && isset($_POST['password'])){
             $errorMessage = "the email or the password is incorrect";
         }else {
             session_start();
-            $_SESSION['user'] = $result->id;
+            $_SESSION['user'] = $result;
             header('Location: html/home.php');
         }
     } else {
