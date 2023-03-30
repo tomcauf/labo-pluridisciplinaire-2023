@@ -1,7 +1,13 @@
 <?php
 include_once 'libs/repository/DbUserRequests.inc.php';
-include 'html/inc/session.inc.php';
+session_start();
 
+
+if(isset($_SESSION['user'])){
+    header('Location: html/dashboard.php');
+}
+
+session_destroy();
 /**
  * @param $email string the email to verify
  * @param $password string the password to verify
@@ -50,7 +56,6 @@ if(isset($_POST['email']) && isset($_POST['password'])){
     <title>Trasis - Sign In</title>
 </head>
 <body>
-
 <header class="top-nav header">
     <img class="logo" src="assets/images/logoTrasis.svg" alt="Logo Trasis">
 </header>
@@ -83,28 +88,5 @@ if(isset($_POST['email']) && isset($_POST['password'])){
 <footer>
     <p>Labo Pluridisciplinaire - Trasis | All rights reserved</p>
 </footer>
-
-    <?php include 'html/inc/header.inc.php'; ?>
-    <main class="main-sign">
-        <h1 class="title-sign text">Hello</h1>
-        <h2 class="subtitle-sign text">Sign in to your account</h2>
-        <div class="error">
-            <p class="error-message text"></p>
-        </div>
-        <form class="form-sign" method="post">
-            <input type="text" class="email-icon email-sign text" id="mail" name="email" placeholder="Email">
-            <input type="password" class="password-icon password-sign text" id="password" name="password" placeholder="Password">
-            <div class="submit-sign">
-                <span class="submit-sign-message text">Sign in</span>
-                <button class="submit-sign-button">
-                    <img class="button-image" src="assets/images/arrow_forward.svg" alt="Submit image">
-                </button>
-            </div>
-        </form>
-    </main>
-    <footer>
-        <p>Labo Pluridisciplinaire - Trasis | All rights reserved</p>
-    </footer>
-
 </body>
 </html>

@@ -258,7 +258,6 @@ class DbUserRequests
             $query = $link->prepare("UPDATE User SET password = :password WHERE id_user = :idUser");
             $query->bindValue(':password', $hashPassword);
             $query->bindValue(':idUser', $idUser);
-
             $query->execute();
         } catch (PDOException $e) {
             return $e->getMessage();
