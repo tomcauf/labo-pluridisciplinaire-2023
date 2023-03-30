@@ -1,3 +1,9 @@
+<?php
+require_once("../libs/repository/DbUserRequests.inc.php");
+
+$users = DbUserRequests::getAllUser();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,15 +28,24 @@
                     <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
                 </div>
                 <div>
-                    <div class="box-underline box-element">
-                        <p>nom prenom</p>
-                        <p>function</p>
-                        <p>(photo "radio_button_(greenOrRed)") actif</p>
-                    </div>
+                    <?php
+                    foreach($users as $user) {
+                        $name = $user['name'] . " " . $user['firstname'];
+                        $functions = DbUserRequests::getUserLinksFunction($user['id_user']);
+                        $functionString = "";
+                        $imageLink = ($user['active']) ? "../assets/images/radio_button_green.svg" : "../assets/images/radio_button_red.svg";
+                        foreach($functions as $function) {
+                            $functionString .= $function['name']."";
+                        }
+                        echo "<div class='box-underline- box-element'
+                                    <p>$name</p>
+                                    <p>$functionString</p>
+                                    <img src='$imageLink' alt='connection state'>";
+                    }
+                    ?>
                 </div>
             </div>
         </div>
     </main>
 </body>
-
 </html>
