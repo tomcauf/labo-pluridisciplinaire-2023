@@ -30,20 +30,21 @@ class DbFunctionsRequests
         }
     }
 
-    //TODO join pour + qu'ID
     static function getFunctionLinksUser($idFunction)
     {
         try {
             $link = DbConnect::connect2db($errorMessage);
-            $query = $link->prepare("SELECT id_user FROM Have WHERE id_function = :idFunction");
+            $query = $link->prepare("SELECT u.id_user, u.firstname, u.name, u.email, u.active
+                                            FROM User u
+                                            JOIN Have h AS u.id_user = h.id_user
+                                            WHERE h.id_function = :idFunction");
             $query->bindValue(":idFunction", $idFunction);
             $query->execute();
-            $results = $query->fetchAll();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $exception) {
             echo $exception->getMessage();
         } finally {
             DbConnect::disconnect($link);
-            return $results;
         }
     }
 
@@ -69,15 +70,17 @@ class DbFunctionsRequests
     {
         try {
             $link = DbConnect::connect2db($errorMessage);
-            $query = $link->prepare("SELECT id_training FROM Operate WHERE id_function = :idFunction");
+            $query = $link->prepare("SELECT t.id_training, t.name, t.location, t.duration, t.deadline, t.active, t.certificate_deadline
+                                            FROM Training t 
+                                            JOIN Operate o AS o.id_training = t.id_training
+                                            WHERE o.id_function = :idFunction");
             $query->bindValue(":idFunction", $idFunction);
             $query->execute();
-            $results = $query->fetchAll();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $exception) {
             echo $exception->getMessage();
         } finally {
             DbConnect::disconnect($link);
-            return $results;
         }
     }
 
