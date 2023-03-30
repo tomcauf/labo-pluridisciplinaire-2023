@@ -163,17 +163,17 @@ footer{
     background: url("../assets/images/lock.svg") no-repeat left;
     background-size: 27px;
 }
-.email-sign, .password-sign{
+.email-sign, .password-sign, .firstname-user, .name-user, .email-user, .select-user,.submit-create-user{
     width: 350px;
     height: 50px;
     font-size: 20px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 20px;
+    border-radius: 15px;
     margin-top: 40px;
     background-color: white;
     border: none;
 }
-.submit-sign{
+.submit-sign, .btn-add-user{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -212,7 +212,7 @@ footer{
     flex: 1;
 }
 
-.dashboard, .user-management > .title{
+.title{
     /* font-size: 50px; */
     margin-top: 30px;
     /* margin-bottom: 50px; */
@@ -228,7 +228,7 @@ footer{
     /* margin-right: 100px; */
 }
 .box{
-    width: 731px;
+    width: 600px;
     height: 386px;
     background-color: white;
     border: 1px solid #E5E5E5;
@@ -263,13 +263,57 @@ footer{
 .box-underline{
     border-bottom: 1px solid #E5E5E5;
 }
+.box-title{
+    text-decoration: underline;
+}
+.box-flex{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    height: 60px;
+    padding-left: 20px;
+    padding-right: 20px;
+    border-bottom: 1px solid #E5E5E5;
+}
 .box-element:hover{
     background-color: #F9F9F9;
 }
 
 .box-management{
-    width: 800px;
+    width: 600px;
     height: 800px;
+}
+.radio-button{
+    width: 45px;
+}
+/*======== UserManager ========*/
+.firstname-user, .name-user, .email-user, .select-user, .submit-create-user{
+    border: 1px solid #C4C4C4;
+}
+.submit-create-user{
+    background-color: var(--tertiary-color);
+}
+.form-user{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.mult-select-tag{
+    width: 350px;
+    height: 50px;
+    border-radius: 15px;
+    margin-top: 40px;
+}
+.search-user{
+    flex: 1;
+    background: 0 0;
+    border-radius: 0.25rem;
+    padding: 0.45rem;
+    margin: 10px;
+    color: #2d3748;
+    outline: 0;
+    border: 1px solid var(--border-color);
 }
 /*=============== FOOTER ===============*/
 footer{
