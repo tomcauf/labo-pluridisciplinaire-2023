@@ -1,6 +1,5 @@
 <?php
 include_once 'libs/repository/DbUserRequests.inc.php';
-include_once 'libs/models/User.php';
 session_start();
 
 
