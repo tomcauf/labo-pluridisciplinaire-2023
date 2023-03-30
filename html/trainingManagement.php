@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
     <link rel="stylesheet" href="../css/style.css">
     <script src="../scripts/sideBar.js" defer></script>
     <title>Training Management</title>
@@ -52,8 +53,19 @@
                         <input type="text" name="location" class="text" placeholder="Location" required>
                         <input type="number" name="summary" class="" placeholder="Duration (month)" required>
                         <input type="text" name="deadline" class="" placeholder="Deadline (DD/MM/YYYY)" required>
-                        <input type="text" name="certificate_deadline" class="text" placeholder="">
-                        
+                        <input type="text" name="certificate_deadline" class="text" placeholder="Certificate deadline" required>
+                        <select name="requis" id="requis" class="select-user text" multiple>
+                            <option value="1">Requis 1</option>
+                            <option value="2">Requis 2</option>
+                        </select>
+                        <select name="function" id="function" class="select-user text" multiple>
+                            <option value="1">Function 1</option>
+                            <option value="2">Function 2</option>
+                        </select>
+                        <select name="trainers" id="trainers" class="select-user text" multiple>
+                            <option value="1">Trainers 1</option>
+                            <option value="2">Trainers 2</option>
+                        </select>
                         <button class="submit-create-user">Create</button>
                     </form>
                 </div>
@@ -63,9 +75,17 @@
 </body>
 <script src="../scripts/multiSelectTag.js"></script>
 <script>
-    new MultiSelectTag('manager', {
+    new MultiSelectTag('requis', {
     rounded: true,
     shadow: true
-})
+    })
+    new MultiSelectTag('function', {
+        rounded: true,
+        shadow: true
+    })
+    new MultiSelectTag('trainers', {
+        rounded: true,
+        shadow: true
+    })
 </script>
 </html>
