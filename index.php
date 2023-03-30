@@ -1,3 +1,49 @@
+<?php
+include_once 'libs/repository/DbUserRequests.inc.php';
+session_start();
+
+
+if(isset($_SESSION['user'])){
+    header('Location: html/home.php');
+}
+
+session_destroy();
+/**
+ * @param $email string the email to verify
+ * @param $password string the password to verify
+ * @return bool true if the form is valid, false otherwise
+ */
+function verifyFormArg($email, $password)
+{
+    if (empty($email) || empty($password)) {
+        return false;
+    }
+    return true;
+}
+$errorMessage = "";
+if(isset($_POST['email']) && isset($_POST['password'])){
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    if (verifyFormArg($email, $password)) {
+        $result = DbUserRequests::getUserDataAndVerifyPsw($email, $password);
+        if(is_string($result)){
+            $errorMessage = $result;
+        }else if(!$result) {
+            $errorMessage = "the email or the password is incorrect";
+        }else {
+            session_start();
+            $_SESSION['user'] = $result;
+            header('Location: html/home.php');
+        }
+    } else {
+        $errorMessage = "Please fill all the fields";
+    }
+}
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
