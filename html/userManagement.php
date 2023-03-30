@@ -63,7 +63,7 @@ $users = DbUserRequests::getAllUser();
                         <input type="text" name="firstname" class="firstname-user text" placeholder="Firstname" required>
                         <input type="text" name="name" class="name-user text" placeholder="Name" required>
                         <input type="text" name="email" class="email-user text" placeholder="Email" required>
-                        <select name="countries" id="countries" class="select-user text" multiple>
+                        <select name="manager" id="manager" class="select-user text" multiple>
                             <option value="1">Employe</option>
                         </select>
                         <button class="submit-create-user">Create</button>
@@ -75,9 +75,9 @@ $users = DbUserRequests::getAllUser();
 </body>
 <script src="../scripts/multiSelectTag.js"></script>
 <script>
-    new MultiSelectTag('countries', {
-    rounded: true,    // default true
-    shadow: true      // default false
+    new MultiSelectTag('manager', {
+    rounded: true,
+    shadow: true
 })
 </script>
 </html>
