@@ -1,9 +1,3 @@
-<?php
-require_once("../libs/repository/DbUserRequests.inc.php");
-
-$users = DbUserRequests::getAllUser();
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,30 +16,32 @@ $users = DbUserRequests::getAllUser();
         <?php include 'inc/menu.inc.php'; ?>
         <div class="user-management">
             <h1 class="title text">User Management</h1>
-            <div class="box box-management">
-                <div class="box-title box-underline">
-                    <h2 class="title text">List of Users</h2>
-                    <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+            <div class="boxs">
+                <div class="box box-management">
+                    <div class="box-title box-underline">
+                        <h2 class="title text">List of Users</h2>
+                        <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+                    </div>
+                    <div>
+                        <div class="box-underline box-element">
+                            <p>nom prenom</p>
+                            <p>function</p>
+                            <p>(photo "radio_button_(greenOrRed)") actif</p>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <?php
-                    foreach($users as $user) {
-                        $name = $user['name'] . " " . $user['firstname'];
-                        $functions = DbUserRequests::getUserLinksFunction($user['id_user']);
-                        $functionString = "";
-                        $imageLink = ($user['active']) ? "../assets/images/radio_button_green.svg" : "../assets/images/radio_button_red.svg";
-                        foreach($functions as $function) {
-                            $functionString .= $function['name']."";
-                        }
-                        echo "<div class='box-underline- box-element'
-                                    <p>$name</p>
-                                    <p>$functionString</p>
-                                    <img src='$imageLink' alt='connection state'>";
-                    }
-                    ?>
+                <div class="box box-management">
+                    <div class="box-title box-underline">
+                        <h2 class="title text">Add a user</h2>
+                        <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+                    </div>
+                    <div>
+                        <p>permet l'add</p>
+                    </div>
                 </div>
             </div>
         </div>
     </main>
 </body>
+
 </html>
