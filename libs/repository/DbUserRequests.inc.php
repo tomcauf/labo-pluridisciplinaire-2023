@@ -277,4 +277,73 @@ class DbUserRequests
         }
     }
 
+    //TODO faire un join pour récup plus d'infos qu'une ID
+    static function getUserLinksFunction($idUser)
+    {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            $query = $link->prepare("SELECT id_function FROM Have WHERE id_user = :idUser");
+            $query->bindValue(":idUser", $idUser);
+            $query->execute();
+            $results = $query->fetchAll();
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+            return $results;
+        }
+    }
+
+    static function addLinksToUserFunction($idUser, ...$idFunctions)
+    {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+
+            foreach($idFunctions as $idFunction) {
+                $query = $link->prepare("INSERT INTO Have(id_user, id_function) VALUES (:idUser, :idFunction);");
+                $query->bindValue(":idUser", $idUser);
+                $query->bindValue(":idFunction", $idFunction);
+                $query->execute();
+            }
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
+    }
+
+    static function getUserLinksTraining($idUser)
+    {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            $query = $link->prepare("SELECT id_training FROM Training WHERE id_user = :idUser");
+            $query->bindValue(":idUser", $idUser);
+            $query->execute();
+            $results = $query->fetchAll();
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+            return $results;
+        }
+    }
+
+    static function addLinksToUserTraining($idUser, ...$idTrainings)
+    {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+
+            foreach($idTrainings as $idTraining) {
+                $query = $link->prepare("INSERT INTO Training(id_user, id_training) VALUES (:idUser, :idTraining);");
+                $query->bindValue(":idUser", $idUser);
+                $query->bindValue(":idTraining", $idTraining);
+                $query->execute();
+            }
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
+    }
+
 }
