@@ -101,4 +101,34 @@ class DbFunctionsRequests
             DbConnect::disconnect($link);
         }
     }
+
+    //TODO: Vérifier que c'est juste parce que fait par Gillian
+    static function getRoleLevel($idUser){
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            $query = $link->prepare("SELECT id_function
+                                          FROM Have
+                                          WHERE id_user = :idUser");
+            $query->bindValue(":idUser", $idUser);
+            if($query->execute()){
+                $id_functions = $query->fetchAll(PDO::FETCH_COLUMN, PDO::FETCH_UNIQUE);
+                $query2 = $link->prepare("SELECT MAX(role_level)
+                                                FROM Function
+                                                WHERE id_function IN :idFunctions");
+                $query2->bindValue(":idFunctions", $id_functions);
+                if($query2->execute()){
+                    return $query2->fetch();
+                } else {
+                    throw new PDOException("Problème lors de l'exécution de la seconde requête!");
+                }
+            } else{
+                throw new PDOException("Problème lors de l'exécution de la première requête!");
+            }
+
+        } catch(PDOException $exception) {
+                return $exception->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
+    }
 }
