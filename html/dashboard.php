@@ -1,3 +1,6 @@
+<?php
+require_once "../libs/repository/DbTrainingRequests.inc.php";
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,10 +24,17 @@
                         <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
                     </div>
                     <div>
-                        <div class="box-underline">
-                            <p>mok</p>
-                            <p>mokmok</p>
-                        </div>
+                        <?php
+                        //TODO changer pour celui de l'utilisateur
+                        $allTraining = DbTrainingRequests::getAllTrainings();
+                        foreach ($allTraining as $training){
+                            echo '<div class="box-underline" onclick="goTo('.$training['id_training'].')">';
+                            echo "<p>".$training['name']."</p>";
+                            echo "<p>".$training['location']."</p>";
+                            echo "<p>".$training['deadline']."</p>";
+                            echo "</div>";
+                        }
+                        ?>
                     </div>
                 </div>
                 <div class="box box-accreditation">
@@ -48,5 +58,10 @@
             </div>
         </div>
     </main>
+    <script>
+        function goTo(id){
+            window.location.href = "info.php?id="+id+"&type=training";
+        }
+    </script>
 </body>
 </html>
