@@ -11,7 +11,16 @@ class DbTrainingRequests
                 return $errorMessage;
             }
 
-    static function addTrainingCourse($name, $description, $location, $duration, $deadline, $certificate_deadline)
+            $query = $link->query("SELECT * FROM Training");
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        }catch (PDOException $e) {
+            return $e->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
+    }
+
+    static function addTrainingCourse($name, $description, $location, $duration, $deadline, $certificate_deadline, ...$trainers)
     {
         try {
             $link = DbConnect::connect2db($errorMessage);
