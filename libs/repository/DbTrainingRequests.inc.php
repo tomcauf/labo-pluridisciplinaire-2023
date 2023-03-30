@@ -3,6 +3,13 @@ require_once "DbConnect.inc.php";
 
 class DbTrainingRequests
 {
+    static function getAllTrainings()
+    {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            if ($link == null) {
+                return $errorMessage;
+            }
 
     static function addTrainingCourse($name, $description, $location, $duration, $deadline, $certificate_deadline)
     {

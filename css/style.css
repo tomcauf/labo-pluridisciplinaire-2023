@@ -122,6 +122,7 @@ footer{
     /* height: calc(100vh - 100px); */
     transition: 0.3s;
     opacity: 1;
+    overflow: hidden;
 }
 .side-bar.close{
     width: 52px;

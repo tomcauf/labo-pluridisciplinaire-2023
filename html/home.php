@@ -1,9 +1,14 @@
 <?php
-    session_start();
-    if(!isset($_SESSION['user'])){
-        header('Location: ../index.php');
-    }
-    var_dump($_SESSION);
+
+require_once '../libs/repository/DbTrainingRequests.inc.php';
+//require_once '../inc/formAddClient.inc.php';
+require_once '../inc/formAddTraining.inc.php';
+
+session_start();
+if (!isset($_SESSION['user'])) {
+    header('Location: ../index.php');
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -14,12 +19,31 @@
     <link rel="stylesheet" href="../css/style.css">
 </head>
 <body>
-    <header>
-        connecté
+<header>
+    connecté
 
-    </header>
-    <main>
+</header>
+<main>
+    <?php
+    //getALLTrainings();
+//    printForm();
 
-    </main>
+    printfForm();
+
+    ?>
+    <!--        <table>-->
+    <!--            <tr>-->
+    <!--                <th>name</th>-->
+    <!--                <th>location</th>-->
+    <!--                <th>duration</th>-->
+    <!--                <th>deadline</th>-->
+    <!--                <th>confirmation</th>-->
+    <!--                <th>active</th>-->
+    <!--                <th>certificate_deadline</th>-->
+    <!--            </tr>-->
+    <!--            -->
+    <!--        </table>-->
+
+</main>
 </body>
 </html>
