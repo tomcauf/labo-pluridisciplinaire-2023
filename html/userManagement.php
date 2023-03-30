@@ -16,16 +16,27 @@
         <?php include 'inc/menu.inc.php'; ?>
         <div class="user-management">
             <h1 class="title text">User Management</h1>
-            <div class="box box-management">
-                <div class="box-title box-underline">
-                    <h2 class="title text">List of Users</h2>
-                    <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+            <div class="boxs">
+                <div class="box box-management">
+                    <div class="box-title box-underline">
+                        <h2 class="title text">List of Users</h2>
+                        <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+                    </div>
+                    <div>
+                        <div class="box-underline box-element">
+                            <p>nom prenom</p>
+                            <p>function</p>
+                            <p>(photo "radio_button_(greenOrRed)") actif</p>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <div class="box-underline box-element">
-                        <p>nom prenom</p>
-                        <p>function</p>
-                        <p>(photo "radio_button_(greenOrRed)") actif</p>
+                <div class="box box-management">
+                    <div class="box-title box-underline">
+                        <h2 class="title text">Add a user</h2>
+                        <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+                    </div>
+                    <div>
+                        <p>permet l'add</p>
                     </div>
                 </div>
             </div>
