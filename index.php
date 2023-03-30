@@ -9,10 +9,8 @@
     <title>Trasis - Sign In</title>
 </head>
 <body>
-    <header class="top-nav header">
-        <img class="logo" src="assets/images/logoTrasis.svg" alt="Logo Trasis">
-    </header>
-    <main>
+    <?php include 'html/inc/header.inc.php'; ?>
+    <main class="main-sign">
         <h1 class="title-sign text">Hello</h1>
         <h2 class="subtitle-sign text">Sign in to your account</h2>
         <div class="error">
@@ -30,7 +28,7 @@
         </form>
     </main>
     <footer>
-        <p>Labo Pluridisciplinaire - Trasis | All rights reserved</p>
+        <p>Labo Pluridisciplinaire - Trasis | All rights reserved</p>
     </footer>
 </body>
 </html>
