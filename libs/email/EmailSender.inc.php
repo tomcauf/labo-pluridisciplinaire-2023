@@ -1,9 +1,10 @@
 <?php
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/Exception.php';
+require '../PHPMailer/src/PHPMailer.php';
+require '../PHPMailer/src/Exception.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+
 class EmailSender
 {
     /**
@@ -21,11 +22,11 @@ class EmailSender
             $mail->setFrom('admin@training.trasis.com');
             $mail->addAddress($email);
             $mail->addReplyTo('no-reply@training.trasis.com');
-            $mail->isHTML(false);
+            $mail->isHTML(true);
             $mail->Subject = 'Access Trasis Training';
-            $mail->Body = 'Hello, here are your access credentials for your account on Trasis Training \r\n'
-                . "Email : " . $email . "\r\nPassword : " . $password
-                . "\r\nPlease don\'t forget to change your password when you log in for the first time.";
+            $mail->Body = 'Hello, here are your access credentials for your account on Trasis Training <br>'
+                . "Email : " . $email . "<br>Password : " . $password
+                . "<br>Please don't forget to change your password when you log in for the first time.";
             $mail->send();
             return true;
         } catch (Exception $e){
