@@ -3,7 +3,7 @@ require_once "DbConnect.inc.php";
 
 class DbRequestRequests
 {
-    static function storeNewRequest($validationType, $idValidator, $validationDate)
+    static function storeNewRequest($idRequest, $validationType, $idValidator, $validationDate)
     {
         if ($validationType != "ACCESSED" || $validationType != "VALIDATED")
             return "The validation type isn't correct for such an action";
@@ -14,14 +14,15 @@ class DbRequestRequests
                 return $errorMessage;
             }
 
-            $query = $link->prepare("INSERT INTO Request(validation_type, id_validator, validation_date)
-                                            VALUES (:validationType, :idValidator, :validationDate)");
+            $query = $link->prepare("INSERT INTO Request(id_request, validation_type, id_validator, validation_date)
+                                            VALUES (:idRequest, :validationType, :idValidator, :validationDate)");
+            $query->bindValue(":idRequest", $idRequest);
             $query->bindValue(":validationType", $validationType);
             $query->bindValue(":idValidator", $idValidator);
-            $query->bindValue("validationDate", $validationDate);
+            $query->bindValue(":validationDate", $validationDate);
             $query->execute();
         } catch(PDOException $e) {
-            echo $e->getMessage();
+            return $e->getMessage();
         } finally {
             DbConnect::disconnect($link);
         }
@@ -44,7 +45,7 @@ class DbRequestRequests
             echo $e->getMessage();
         } finally {
             DbConnect::disconnect($link);
-            return $results;
+            return (isset($results)) ? $results : "Something went wrong with the request";
         }
     }
 
@@ -63,7 +64,7 @@ class DbRequestRequests
             echo $e->getMessage();
         } finally {
             DbConnect::disconnect($link);
-            return $results;
+            return (isset($results)) ? $results : "Something went wrong with the request";
         }
     }
 }

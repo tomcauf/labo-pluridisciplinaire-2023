@@ -122,9 +122,8 @@ class DbUserRequests
         }
         finally {
             DbConnect::disconnect($link);
+            return (isset($results)) ? $results : "Something went wrong with the request";
         }
-
-        return !$result ? "Nothing" : $result;
     }
 
 
@@ -262,7 +261,7 @@ class DbUserRequests
             echo $exception->getMessage();
         } finally {
             DbConnect::disconnect($link);
-            return $results;
+            return (isset($results)) ? $results : "Something went wrong with the request";
         }
     }
 
@@ -296,7 +295,7 @@ class DbUserRequests
             echo $exception->getMessage();
         } finally {
             DbConnect::disconnect($link);
-            return $results;
+            return (isset($results)) ? $results : "Something went wrong with the request";
         }
     }
 
