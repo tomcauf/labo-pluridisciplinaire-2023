@@ -1,11 +1,10 @@
 <?php
 
 require_once '../libs/repository/DbTrainingRequests.inc.php';
-require_once '../inc/formAddClient.inc.php';
+//require_once '../inc/formAddClient.inc.php';
+require_once '../inc/formAddTraining.inc.php';
 
-include_once '../inc/formAddClient.inc.php';
-
-
+session_start();
 if (!isset($_SESSION['user'])) {
     header('Location: ../index.php');
 }
@@ -45,7 +44,10 @@ function getALLTrainings()
 <main>
     <?php
     //getALLTrainings();
-    printForm();
+//    printForm();
+
+    printfForm();
+
     ?>
     <!--        <table>-->
     <!--            <tr>-->
