@@ -210,9 +210,6 @@ class DbUserRequests
             if (!$query->execute())
                 return "error unable to update user";
 
-            else {
-
-            }
         } catch (PDOException $e) {
             return $e->getMessage();
         } finally {
@@ -245,9 +242,6 @@ class DbUserRequests
             if (!$query->execute())
                 return "error unable to update user";
 
-            else {
-
-            }
         } catch (PDOException $e) {
             return $e->getMessage();
         } finally {

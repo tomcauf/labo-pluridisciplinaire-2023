@@ -47,7 +47,9 @@ require_once "../libs/repository/DbTrainingRequests.inc.php";
                 </div>
                 <div>
                     <?php
+                    //TODO changer pour celui de l'utilisateur
 
+                    $allTraining = DbTrainingRequests::getAllTrainings();
                     ?>
                 </div>
             </div>

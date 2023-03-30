@@ -9,24 +9,6 @@ if (!isset($_SESSION['user'])) {
     header('Location: ../index.php');
 }
 
-function getALLTrainings()
-{
-    $allTrainnig = DbTrainingRequests::getALLTrainings();
-
-    foreach ($allTrainnig as $training) {
-        echo "<tr>
-            <td>" . $training['name'] . "</td>
-            <td>" . $training['location'] . "</td>
-            <td>" . $training['duration'] . "</td>
-            <td>" . $training['deadline'] . "</td>
-            <td>" . $training['confirmation'] . "</td>
-            <td>" . $training['active'] . "</td>
-            <td>" . $training['certificate_deadline'] . "</td>
-            </tr>";
-    }
-}
-
-
 ?>
 
 <!DOCTYPE html>
