@@ -256,8 +256,8 @@ class DbUserRequests
     private static function generatePassword($email)
     {
         $password = rand(0, 9999);
-        EmailSender::sendNewAccount($email, $password);
-        return $password;
+        //EmailSender::sendNewAccount($email, $password);
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 
     /**
