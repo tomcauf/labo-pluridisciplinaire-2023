@@ -11,6 +11,7 @@ include 'inc/session.inc.php';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
     <link rel="stylesheet" href="../css/style.css">
     <script src="../scripts/sideBar.js" defer></script>
+    <script src="../scripts/fullscreen.js" defer></script>
     <title>Training Management</title>
 </head>
 
@@ -21,10 +22,10 @@ include 'inc/session.inc.php';
         <div class="user-management">
             <h1 class="title text">Training Management</h1>
             <div class="boxs">
-                <div class="box box-management">
+                <div class="box box-list-training">
                     <div class="box-title box-underline">
                         <h2 class="title text">List of Training</h2>
-                        <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+                        <img src="../assets/images/open_fullscreen.svg" class="box-list-training-btn" alt="FullScreen">
                     </div>
                     <div>
                     <div class="box-underline box-title">
@@ -44,10 +45,10 @@ include 'inc/session.inc.php';
                         </div>
                     </div>
                 </div>
-                <div class="box box-management">
+                <div class="box box-add-training">
                     <div class="box-title box-underline">
                         <h2 class="title text">Add a Training</h2>
-                        <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+                        <img src="../assets/images/open_fullscreen.svg" class="box-add-training-btn" alt="FullScreen">
                     </div>
                     <form method="post" class="form-training">
                         <input type="text" name="name" class="name-training text" placeholder="Name" required>

@@ -13,6 +13,7 @@ $users = DbUserRequests::getAllUser();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/css/multi-select-tag.css">
     <link rel="stylesheet" href="../css/style.css">
     <script src="../scripts/sideBar.js" defer></script>
+    <script src="../scripts/fullscreen.js" defer></script>
     <title>User Management</title>
 </head>
 
@@ -26,7 +27,7 @@ $users = DbUserRequests::getAllUser();
                 <div class="box box-management">
                     <div class="box-title box-underline">
                         <h2 class="title text">List of Users</h2>
-                        <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+                        <img src="../assets/images/open_fullscreen.svg" class="box-management-btn" alt="FullScreen">
                     </div>
                     <div>
                         <div class="box-underline box-title">
@@ -54,10 +55,10 @@ $users = DbUserRequests::getAllUser();
                         ?>
                     </div>
                 </div>
-                <div class="box box-management">
+                <div class="box box-add-user">
                     <div class="box-title box-underline">
                         <h2 class="title text">Add a user</h2>
-                        <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+                        <img src="../assets/images/open_fullscreen.svg" class="box-add-user-btn" alt="FullScreen">
                     </div>
                     <form method="post" class="form-user">
                         <input type="text" name="firstname" class="firstname-user text" placeholder="Firstname" required>

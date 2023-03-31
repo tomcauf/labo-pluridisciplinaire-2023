@@ -139,6 +139,9 @@ footer{
     justify-content: normal;
     flex-direction: row;
 }
+.fullscreen{
+    transition: 0.3s;
+}
 /*======== SIGN IN ========*/
 .title-sign{
     margin-top: -100px;
@@ -287,7 +290,7 @@ footer{
 .box-element:hover{
     background-color: #F9F9F9;
 }
-.box-management{
+.box-management, .box-add-user, .box-training-validation, .box-register-management, .box-list-training, .box-add-training, .box-logs{
     width: 600px;
     height: 800px;
 }
