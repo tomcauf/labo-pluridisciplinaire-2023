@@ -1,6 +1,12 @@
 <?php
 include 'inc/session.inc.php';
-require_once '../libs/repository/DbUserRequests.inc.php'
+require_once '../libs/repository/DbUserRequests.inc.php';
+
+if(isset($_POST['editForm'])){
+    $user = DbUserRequests::getUserById($_SESSION['user']);
+    DbUserRequests::updateUser($_SESSION['user'], $_POST['firstname'], $_POST['name'], $_POST['email'], $user['manager'], $user['active']);
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,16 +35,30 @@ require_once '../libs/repository/DbUserRequests.inc.php'
                         $userId = $_SESSION['user'];
                         $user = DbUserRequests::getUserById($userId);
                         $userFunctions = DbUserRequests::getUserLinksFunction($userId);
-                        echo '<p>Name : ' . $user['name'] . '</p>';
-                        echo '<p>Firstname : ' . $user['firstname'] . '</p>';
-                        echo '<p>Email : ' . $user['email'] . '</p>';
-                        echo '<p>Functions : ';
-                        foreach ($userFunctions as $function) {
-                            echo $function['name'] . ";";
+
+                        if(!isset($_POST['edit'])) {
+                            echo '<p>Name : ' . $user['name'] . '</p>';
+                            echo '<p>Firstname : ' . $user['firstname'] . '</p>';
+                            echo '<p>Email : ' . $user['email'] . '</p>';
+                            echo '<p>Functions : ';
+                            foreach ($userFunctions as $function) {
+                                echo $function['name'] . ";";
+                            }
+                            echo '</p>';
+                        } else {
+                            echo '<form action="account.php" method="POST" enctype="application/x-www-form-urlencoded">';
+                            echo '    <input id="name" name="name" type="text" value='. $user['name'] .' required>';
+                            echo '    <input id="firstname" name="firstname" type="text" value='. $user['firstname'] .' required>';
+                            echo '    <input id="email" name="email" type="text" value='. $user['email'] .' required>';
+                            echo '    <input id="password" name="password" type="text" required>';
+                            echo '    <input id="repPassword" name="repPassword" type="text" required>';
+                            echo '    <button type="submit" name="editForm">Save changes</button>';
+                            echo '</form>';
                         }
-                        echo '</p>';
                     ?>
-                    <button>Edit</button>
+                    <form action="account.php" method="POST" enctype="application/x-www-form-urlencoded">
+                        <button type="submit" name="edit">Edit</button>
+                    </form>
                 </div>
             </div>
         </div>
