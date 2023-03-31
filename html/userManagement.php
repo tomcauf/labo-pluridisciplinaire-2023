@@ -68,6 +68,17 @@ $users = DbUserRequests::getAllUser();
                         <input type="text" name="email" class="email-user text" placeholder="Email" required>
                         <select name="manager" id="manager" class="select-user text" multiple>
                             <?php
+                            $manager = DbUserRequests::getAllUser();
+                            foreach ($manager as $m) {
+                                //Si c'est moi, ne rien faire
+                                if(!($m['id_user'] == $_SESSION['user'])){
+                                    echo "<option value='" . $m['id_user'] . "'>" . $m['firstname'] . " " . $m['name'] . "</option>";
+                                }
+                            }
+                            ?>
+                        </select>
+                        <select name="select" id="select" class="select-user text" multiple>
+                            <?php
                             $function = DbFunctionsRequests::getAllFunction();
                             foreach ($function as $f) {
                                 echo "<option value='" . $f['id_function'] . "'>" . $f['name'] . "</option>";
@@ -84,6 +95,10 @@ $users = DbUserRequests::getAllUser();
 <script src="../scripts/multiSelectTag.js"></script>
 <script>
     new MultiSelectTag('manager', {
+        rounded: true,
+        shadow: true
+    })
+    new MultiSelectTag('select', {
         rounded: true,
         shadow: true
     })
