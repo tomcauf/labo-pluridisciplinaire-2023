@@ -139,6 +139,9 @@ footer{
     justify-content: normal;
     flex-direction: row;
 }
+.fullscreen{
+    transition: 0.3s;
+}
 /*======== SIGN IN ========*/
 .title-sign{
     margin-top: -100px;
@@ -163,7 +166,7 @@ footer{
     background: url("../assets/images/lock.svg") no-repeat left;
     background-size: 27px;
 }
-.email-sign, .password-sign, .firstname-user, .name-user, .email-user, .select-user,.submit-create-user{
+.email-sign, .password-sign, .firstname-user, .name-user, .email-user, .select-user,.submit-create-user, .name-training, .summary-training, .location-training, .duration-training, .deadline-training, .certificate-deadline-training{
     width: 350px;
     height: 50px;
     font-size: 20px;
@@ -269,18 +272,25 @@ footer{
 .box-flex{
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    /* justify-content: space-around; */
     align-items: center;
     height: 60px;
     padding-left: 20px;
     padding-right: 20px;
     border-bottom: 1px solid #E5E5E5;
 }
+.box-flex p, .box-flex span{
+    width: 33.33%;
+    text-align: center;
+}
+.box-flex img{
+    width: 45px;
+    height: 45px;
+}
 .box-element:hover{
     background-color: #F9F9F9;
 }
-
-.box-management{
+.box-management, .box-add-user, .box-training-validation, .box-register-management, .box-list-training, .box-add-training, .box-logs{
     width: 600px;
     height: 800px;
 }
@@ -288,7 +298,7 @@ footer{
     width: 45px;
 }
 /*======== UserManager ========*/
-.firstname-user, .name-user, .email-user, .select-user, .submit-create-user{
+.firstname-user, .name-user, .email-user, .select-user, .select-requis, .select-function, .select-trainers, .submit-create-user{
     border: 1px solid #C4C4C4;
 }
 .submit-create-user{
@@ -314,6 +324,12 @@ footer{
     color: #2d3748;
     outline: 0;
     border: 1px solid var(--border-color);
+}
+/*======== TrainingManager ========*/
+.form-training{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 /*=============== FOOTER ===============*/
 footer{
