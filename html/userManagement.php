@@ -2,7 +2,24 @@
 include 'inc/session.inc.php';
 require_once("../libs/repository/DbUserRequests.inc.php");
 require_once("../libs/repository/DbFunctionsRequests.inc.php");
+require_once ("../libs/repository/DbUserRequests.inc.php");
 
+
+if(isset($_POST["submit-create-user"])){
+    if(isset($_POST["firstname"]) && isset($_POST["name"]) && isset($_POST["email"])){
+        $firstname = $_POST["firstname"];
+        $name = $_POST["name"];
+        $email = $_POST["email"];
+        $idManager = isset($_POST["manager"]) ? $_POST["manager"] : null;
+        $idAdded = DbUserRequests::storeNewUser($firstname, $name, $email, $idManager);
+
+        /*
+        foreach ($_POST["select"] as $function){
+            DbUserRequests::addLinksToUserFunction($idAdded, $function);
+        }
+        */
+    }
+}
 $users = DbUserRequests::getAllUser();
 ?>
 <!DOCTYPE html>
@@ -62,11 +79,11 @@ $users = DbUserRequests::getAllUser();
                         <h2 class="title text">Add a user</h2>
                         <img src="../assets/images/open_fullscreen.svg" class="box-add-user-btn" alt="FullScreen">
                     </div>
-                    <form method="post" class="form-user">
+                    <form method="post" action="" class="form-user">
                         <input type="text" name="firstname" class="firstname-user text" placeholder="Firstname" required>
                         <input type="text" name="name" class="name-user text" placeholder="Name" required>
                         <input type="text" name="email" class="email-user text" placeholder="Email" required>
-                        <select name="manager" id="manager" class="select-user text" multiple>
+                        <select name="manager" id="manager" class="select-user text">
                             <?php
                             $manager = DbUserRequests::getAllUser();
                             foreach ($manager as $m) {
@@ -77,7 +94,7 @@ $users = DbUserRequests::getAllUser();
                             }
                             ?>
                         </select>
-                        <select name="select" id="select" class="select-user text" multiple>
+                        <select name="select[]" id="select" class="select-user text" multiple>
                             <?php
                             $function = DbFunctionsRequests::getAllFunction();
                             foreach ($function as $f) {
@@ -85,7 +102,7 @@ $users = DbUserRequests::getAllUser();
                             }
                             ?>
                         </select>
-                        <button class="submit-create-user">Create</button>
+                        <button type="submit" name="submit-create-user" class="submit-create-user">Create</button>
                     </form>
                 </div>
             </div>

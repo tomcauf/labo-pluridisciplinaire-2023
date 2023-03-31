@@ -77,7 +77,7 @@ $idUser = 3;
                     <h2 class="title text">Accreditation</h2>
                     <img src="../assets/images/open_fullscreen.svg" class="box-accreditation-btn" alt="FullScreen">
                 </div>
-                <div>
+                <div>(
                     <div class="box-underline box-title box-flex">
                         <p>Name</p>
                     </div>
@@ -90,7 +90,7 @@ $idUser = 3;
                                 </div>";
                     else
                         foreach ($allAccreditation as $accreditation) {
-                            echo '<div class="box-underline box-element box-flex" onclick="goTo(' . $accreditation['id_accreditation'] . ')">';
+                            echo '<div class="box-underline box-element box-flex" onclick="goTo(' . $accreditation['id'] . ')">';
                             echo "<p>" . $accreditation['name'] . "</p>";
                             echo "</div>";
                         }
