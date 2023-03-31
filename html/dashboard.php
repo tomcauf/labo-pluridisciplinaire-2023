@@ -1,14 +1,12 @@
 <?php
+include 'inc/session.inc.php';
+
 require_once "../libs/repository/DbTrainingRequests.inc.php";
 require_once "../libs/repository/DbUserRequests.inc.php";
 require_once "../libs/repository/DbFunctionsRequests.inc.php";
 require_once "../libs/repository/DbAccreditationRequests.inc.php";
 
 $idUser = 3;
-
-//var_dump(DbUserRequests::storeNewUserWithPassword("test", "te", "test", 1,  "test" ));
-
-include 'inc/session.inc.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">

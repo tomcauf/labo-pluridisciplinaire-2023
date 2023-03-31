@@ -1,5 +1,7 @@
 <?php
+include 'inc/session.inc.php';
 require_once("../libs/repository/DbUserRequests.inc.php");
+require_once("../libs/repository/DbFunctionsRequests.inc.php");
 
 $users = DbUserRequests::getAllUser();
 ?>
@@ -65,7 +67,12 @@ $users = DbUserRequests::getAllUser();
                         <input type="text" name="name" class="name-user text" placeholder="Name" required>
                         <input type="text" name="email" class="email-user text" placeholder="Email" required>
                         <select name="manager" id="manager" class="select-user text" multiple>
-                            <option value="1">Employe</option>
+                            <?php
+                            $function = DbFunctionsRequests::getAllFunction();
+                            foreach ($function as $f) {
+                                echo "<option value='" . $f['id_function'] . "'>" . $f['name'] . "</option>";
+                            }
+                            ?>
                         </select>
                         <button class="submit-create-user">Create</button>
                     </form>
