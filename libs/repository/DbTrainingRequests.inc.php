@@ -238,7 +238,7 @@ class DbTrainingRequests
         }
     }
 
-    static function addLinksToTrainingUser($idTraining, ...$idUsers)
+    static function addLinksToTrainerUser($idTraining, ...$idUsers)
     {
         try {
             $link = DbConnect::connect2db($errorMessage);
@@ -310,11 +310,12 @@ class DbTrainingRequests
      * @param $idAccreditations array of the accreditations given by this training
      * @return void
      */
-    static function addNewTraining($name, $description, $location, $duration, $deadline, $certificate_deadline, $requiredTrainingIds,$idFunctions, $idAccreditations){
+    static function addNewTraining($name, $description, $location, $duration, $deadline, $certificate_deadline, $requiredTrainingIds,$idFunctions, $idTrainers, $idAccreditations){
         $idTraining = self::addTrainingCourse($name, $description, $location, $duration, $deadline, $certificate_deadline);
 
         self::addRequiredTraining($idTraining, $requiredTrainingIds);
         self::addLinksToTrainingFunction($idTraining, $idFunctions);
+        self::addLinksToTrainerUser($idTraining, $idTrainers);
         self::addLinksToTrainingAccreditation($idTraining, $idAccreditations);
     }
 }

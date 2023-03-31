@@ -1,5 +1,11 @@
 <?php
 include 'inc/session.inc.php';
+require_once '../libs/repository/DbTrainingRequests.inc.php';
+
+if(isset($_POST['createTraining'])){
+    DbTrainingRequests::addNewTraining($_POST['name'], $_POST['summary'], $_POST['location'], $_POST['duration'], $_POST['deadline'],
+        $_POST['certificate_deadline'], $_POST['requis'], $_POST['function'], $_POST['trainers'], $_POST['accreditation']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,7 +56,7 @@ include 'inc/session.inc.php';
                         <h2 class="title text">Add a Training</h2>
                         <img src="../assets/images/open_fullscreen.svg" class="box-add-training-btn" alt="FullScreen">
                     </div>
-                    <form method="post" class="form-training">
+                    <form method="post" class="form-training" enctype="application/x-www-form-urlencoded">
                         <input type="text" name="name" class="name-training text" placeholder="Name" required>
                         <input type="text" name="summary" class="summary-training text" placeholder="Summary" required>
                         <input type="text" name="location" class="location-training text" placeholder="Location" required>
@@ -69,6 +75,10 @@ include 'inc/session.inc.php';
                             <option value="1">Trainers 1</option>
                             <option value="2">Trainers 2</option>
                         </select>
+                        <select name="accreditation" id="accreditation" class="select-trainers text" multiple>
+                            <option value="1">Accreditation 1</option>
+                            <option value="2">Accreditation 2</option>
+                        </select>
                         <button class="submit-create-user">Create</button>
                     </form>
                 </div>
@@ -79,14 +89,18 @@ include 'inc/session.inc.php';
 <script src="../scripts/multiSelectTag.js"></script>
 <script>
     new MultiSelectTag('requis', {
-    rounded: true,
-    shadow: true
+        rounded: true,
+        shadow: true
     })
     new MultiSelectTag('function', {
         rounded: true,
         shadow: true
     })
     new MultiSelectTag('trainers', {
+        rounded: true,
+        shadow: true
+    })
+    new MultiSelectTag('accreditation', {
         rounded: true,
         shadow: true
     })
