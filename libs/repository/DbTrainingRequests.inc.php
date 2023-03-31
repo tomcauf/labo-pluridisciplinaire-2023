@@ -57,6 +57,7 @@ class DbTrainingRequests
                 return $errorMessage;
             }
 
+
             $query = $link->prepare("INSERT INTO Training (name, description, location, duration, deadline, active, certificate_deadline) 
                                 VALUES (:name, :description, :location, :duration, :deadline, 1, :certificate_deadline)");
             $query->bindValue(":name", $name);
@@ -269,7 +270,7 @@ class DbTrainingRequests
             foreach($idAccreditations as $idAccreditation) {
                 $query = $link->prepare("INSERT INTO GiveAccess(id_accreditation, id_training) 
                                                 VALUES (:idAccreditation, :idTraining);");
-                $query->bindValue(":idAccrediation", $idAccreditations);
+                $query->bindValue(":idAccreditation", $idAccreditation);
                 $query->bindValue(":idTraining", $idTraining);
                 $query->execute();
             }
@@ -302,20 +303,28 @@ class DbTrainingRequests
      * @param $name string that's the name of the training
      * @param $description string that's the description of the training
      * @param $location string that's the location where the training is happening
-     * @param $duration integer that's the duration of the training
-     * @param $deadline integer that's the limit at which the training becomes unavailable
-     * @param $certificate_deadline integer that's the limit at which the certificate is relevant
-     * @param $requiredTrainingIds array of required training ids
-     * @param $idFunctions array of the functions that are able to take this training
-     * @param $idAccreditations array of the accreditations given by this training
+     * @param $duration string that's the duration of the training in H:i:s
+     * @param $deadline string that's the limit date at which the training becomes unavailable
+     * @param $certificate_deadline integer that's the limit date at which the certificate is relevant
+     * @param $requiredTrainingIds array of required training ids or "" if not set
+     * @param $idFunctions array of the functions that are able to take this training or "" if not set
+     * @param $idAccreditations array of the accreditations given by this training or "" if not set
      * @return void
      */
     static function addNewTraining($name, $description, $location, $duration, $deadline, $certificate_deadline, $requiredTrainingIds,$idFunctions, $idTrainers, $idAccreditations){
         $idTraining = self::addTrainingCourse($name, $description, $location, $duration, $deadline, $certificate_deadline);
 
-        self::addRequiredTraining($idTraining, $requiredTrainingIds);
-        self::addLinksToTrainingFunction($idTraining, $idFunctions);
-        self::addLinksToTrainerUser($idTraining, $idTrainers);
-        self::addLinksToTrainingAccreditation($idTraining, $idAccreditations);
+        if($requiredTrainingIds != "") {
+            self::addRequiredTraining($idTraining, $requiredTrainingIds);
+        }
+        if($idFunctions != "") {
+            self::addLinksToTrainingFunction($idTraining, $idFunctions);
+        }
+        if($idTrainers != "") {
+            self::addLinksToTrainerUser($idTraining, $idTrainers);
+        }
+        if($idAccreditations != "") {
+            self::addLinksToTrainingAccreditation($idTraining, $idAccreditations);
+        }
     }
 }

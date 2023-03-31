@@ -90,7 +90,7 @@ $idUser = 3;
                                 </div>";
                     else
                         foreach ($allAccreditation as $accreditation) {
-                            echo '<div class="box-underline box-element box-flex" onclick="goTo(' . $accreditation['id_accreditation'] . ')">';
+                            echo '<div class="box-underline box-element box-flex" onclick="goTo(' . $accreditation['id'] . ')">';
                             echo "<p>" . $accreditation['name'] . "</p>";
                             echo "</div>";
                         }
