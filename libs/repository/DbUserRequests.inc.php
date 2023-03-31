@@ -49,7 +49,11 @@ class DbUserRequests
             $query->execute();
 
             $result = $query->fetch(PDO::FETCH_ASSOC);
-            return ($result && password_verify($password, $result['password'])) ? intval($result['id_user']) : false;
+            if($result['active'] == true) {
+                return ($result && password_verify($password, $result['password'])) ? intval($result['id_user']) : false;
+            } else {
+                return false;
+            }
         } catch (PDOException $e) {
             return $e->getMessage();
         } finally {
@@ -211,6 +215,15 @@ class DbUserRequests
         }
     }
 
+    /**
+     * @param $firstname string that's the firstname of the user
+     * @param $name string that's the family name of the user
+     * @param $email string that's the email of the user
+     * @param $idManager integer that's the id of the manager
+     * @param $password string that's the plaintext password of the user
+     * @return string|void an error string
+     *                      or nothing if everything is good
+     */
     static function storeNewUserWithPassword($firstname, $name, $email, $idManager, $password)
     {
         try {
@@ -218,8 +231,7 @@ class DbUserRequests
             if (!$link)
                 return $errorMessage;
 
-
-            $hashPassword = password_hash($password, PASSWORD_DEFAULT);;
+            $hashPassword = password_hash($password, PASSWORD_DEFAULT);
 
             $query = $link->prepare("INSERT INTO User(firstname, name, email, password, active, manager) 
                                             VALUES (:firstname, :name, :email, :password, 1, :manager)");
@@ -237,11 +249,15 @@ class DbUserRequests
         }
     }
 
+    /**
+     * @param $email string that's the email of the user
+     * @return string that's the plaintext password generated
+     */
     private static function generatePassword($email)
     {
         $password = rand(0, 9999);
         EmailSender::sendNewAccount($email, $password);
-        return password_hash($password, PASSWORD_DEFAULT);
+        return $password;
     }
 
     /**
@@ -287,7 +303,6 @@ class DbUserRequests
         }
     }
 
-    //TODO faire safe delete de toutes les autres foreign key
     static function removeUser($idUser)
     {
         try {
@@ -486,6 +501,25 @@ class DbUserRequests
             return $e->getMessage();
         } finally {
             DbConnect::disconnect($link);
+        }
+    }
+
+    /**Method that let's you add a new user in the database easily!
+     * @param $firstname string that's the firstname of the user
+     * @param $name string that's the family name of the user
+     * @param $email string that's the email of the user
+     * @param $idManager integer that's the id of the manager of the user
+     * @param ...$idFunctions integers that are the ids of the functions occupied by the user
+     * @return string|void an error message
+     *                      or nothing if everything is good
+     */
+    static function addNewUser($firstname, $name, $email, $idManager, ...$idFunctions){
+        $errorMessage = self::storeNewUserWithPassword($firstname, $name, $email, $idManager, self::generatePassword($email));
+        $user = self::getUserByEmail($email);
+        $errorMessage2= self::addLinksToUserFunction($user['id'], ...$idFunctions);
+
+        if(isset($errorMessage)||isset($errorMessage2)){
+            return $errorMessage . $errorMessage2;
         }
     }
 
