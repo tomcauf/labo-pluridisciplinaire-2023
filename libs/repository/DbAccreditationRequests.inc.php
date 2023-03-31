@@ -56,38 +56,107 @@ class DbAccreditationRequests
         }
         try {
             $link = DbConnect::connect2db($errorMessage);
-            //TODO: Terminer
-            $query = $link->prepare("DELETE");
-
+            $query = $link->prepare("DELETE FROM Accreditation WHERE id_accreditation = :idAccreditation");
+            $query->bindValue(":idAccreditation", $idAccreditation);
+            $query->execute();
         } catch (PDOException $exception) {
-
+            return $exception->getMessage();
         } finally {
             DbConnect::disconnect($errorMessage);
         }
     }
 
-    static function updateAccreditation($idAccreditation)
+    static function updateAccreditation($idAccreditation, $name)
     {
+        try{
+            $link = DbConnect::connect2db($errorMessage);
+            if($link == null)
+                return $errorMessage;
 
+            $query = $link->prepare("UPDATE Accreditation SET name = :name WHERE id_accreidation = :idAccrediation");
+            $query->bindValue(":name", $name);
+            $query->bindValue(":idAccreditation", $idAccreditation);
+            $query->execute();
+        } catch(PDOException $exception) {
+            return $exception->getMessage();
+        } finally{
+            DbConnect::disconnect($link);
+        }
     }
 
     static function getAllAccreditations()
     {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            if ($link == null)
+                return $errorMessage;
 
+            $query = $link->query("SELECT * FROM Acreditation");
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $exception) {
+            return $exception->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
     }
 
     static function getAccreditationLinksTraining($idAccreditation)
     {
-
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            if($link == null)
+                return $errorMessage;
+            $query = $link->prepare("SELECT tg.id_training, tg.name, tg.description
+                                            FROM Training tg
+                                            JOIN GiveAccess ga ON tg.id_training = ga.id_training
+                                            WHERE ga.id_accreditation = :idAccreditation");
+            $query->bindValue(":idAccreditation", $idAccreditation);
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $message) {
+            return $message->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
     }
 
     static function addLinksToAccreditationTraining($idAccreditation, ...$idTrainings)
     {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            if($link == null)
+                return $errorMessage;
 
+            foreach($idTrainings as $idTraining) {
+                $query = $link->prepare("INSERT INTO GiveAccess(id_accreditation, id_training) VALUES (:idAccreditation, :idTraining)");
+                $query->bindValue(":idAccreditation", $idAccreditation);
+                $query->bindValue(":idTraining", $idTraining);
+                $query->execute();
+            }
+        } catch (PDOException $exception) {
+            return $exception->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
     }
 
     static function removeLinksToAccreditationsTraining($idAccreditation, ...$idTrainings)
     {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            if($link == null)
+                return $errorMessage;
 
+            foreach($idTrainings as $idTraining) {
+                $query = $link->prepare("DELETE FROM GiveAccess WHERE id_accreditation = :idAccrediation AND id_training = :idTraining");
+                $query->bindValue(":idAccreditation", $idAccreditation);
+                $query->bindValue(":idTraining", $idTraining);
+                $query->execute();
+            }
+        } catch (PDOException $exception) {
+            return $exception->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
     }
 }

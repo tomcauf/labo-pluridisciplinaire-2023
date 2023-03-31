@@ -2,6 +2,19 @@
 require_once "DbConnect.inc.php";
 class DbFunctionsRequests
 {
+    static function getAllFunction(){
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            $query = $link->prepare("SELECT f.id_function , f.name FROM Function f");
+            $query->execute();
+            return $query->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $exception) {
+            echo $exception->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
+    }
+
     static function addFunction($name)
     {
         try {

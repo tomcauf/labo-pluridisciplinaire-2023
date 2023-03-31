@@ -66,6 +66,22 @@ class DbTrainingRequests
         }
     }
 
+    static function getLastId()
+    {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            if ($link == null)
+                return $errorMessage;
+
+            $query = $link->query("SELECT id_training FROM Training ORDER BY id_training DESC");
+            return $query->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
+    }
+
     static function addRequiredTraining($idTraining, ...$requiredTrainingIds)
     {
         try {
