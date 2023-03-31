@@ -25,40 +25,38 @@ if(isset($_POST['editForm'])){
     <main class="main">
         <?php include 'inc/menu.inc.php'; ?>
         <div class="user-management">
-            <h1 class="title text">Account</h1>
             <div class="box box-management">
                 <div class="box-title box-underline">
                     <h2 class="title text">Account Information</h2>
                 </div>
-                <div>
+                <div class="profil">
                     <?php
                         $userId = $_SESSION['user'];
                         $user = DbUserRequests::getUserById($userId);
                         $userFunctions = DbUserRequests::getUserLinksFunction($userId);
-
                         if(!isset($_POST['edit'])) {
-                            echo '<p>Name : ' . $user['name'] . '</p>';
-                            echo '<p>Firstname : ' . $user['firstname'] . '</p>';
-                            echo '<p>Email : ' . $user['email'] . '</p>';
-                            echo '<p>Functions : ';
+                            echo '<p class="profil-element"><span>Name</span> : ' . $user['name'] . '</p>';
+                            echo '<p class="profil-element"><span>Firstname</span> : ' . $user['firstname'] . '</p>';
+                            echo '<p class="profil-element"><span>Email</span> : ' . $user['email'] . '</p>';
+                            echo '<p class="profil-element"><span>Function</span> : ';
                             foreach ($userFunctions as $function) {
-                                echo $function['name'] . ";";
+                                echo $function['name'] . ", ";
                             }
+                            echo substr($userFunctions[0]['name'], 0, -2);
                             echo '</p>';
-                        } else {
                             echo '<form action="account.php" method="POST" enctype="application/x-www-form-urlencoded">';
-                            echo '    <input id="name" name="name" type="text" value='. $user['name'] .' required>';
-                            echo '    <input id="firstname" name="firstname" type="text" value='. $user['firstname'] .' required>';
-                            echo '    <input id="email" name="email" type="text" value='. $user['email'] .' required>';
-                            echo '    <input id="password" name="password" type="password" required>';
-                            echo '    <input id="repPassword" name="repPassword" type="password" required>';
-                            echo '    <button type="submit" name="editForm">Save changes</button>';
+                            echo '<button type="submit" id="edit" class="edit-profil" name="edit">Edit</button>';
+                            echo '</form>';
+                        } else {
+                            echo '<form action="account.php" class="form-profil" method="POST" enctype="application/x-www-form-urlencoded">';
+                            echo '    <input id="name" class="name-profil" name="name" type="text" value='. $user['name'] .' placeholder="name" required>';
+                            echo '    <input id="firstname" class="firstname-profil" name="firstname" type="text" value='. $user['firstname'] .' placeholder="firstname" required>';
+                            echo '    <input id="email" class="email-profil" name="email" type="text" value='. $user['email'] .'  placeholder="email" required>';
+                            echo '    <input id="password" class="password-profil" name="password" type="password" placeholder="password" required>';
+                            echo '    <button type="submit" class="submit-profil" name="editForm">Save changes</button>';
                             echo '</form>';
                         }
                     ?>
-                    <form action="account.php" method="POST" enctype="application/x-www-form-urlencoded">
-                        <button type="submit" name="edit">Edit</button>
-                    </form>
                 </div>
             </div>
         </div>

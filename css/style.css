@@ -166,7 +166,7 @@ footer{
     background: url("../assets/images/lock.svg") no-repeat left;
     background-size: 27px;
 }
-.email-sign, .password-sign, .firstname-user, .name-user, .email-user, .select-user,.submit-create-user, .name-training, .summary-training, .location-training, .duration-training, .deadline-training, .certificate-deadline-training{
+.email-sign, .password-sign, .firstname-user, .name-user, .email-user, .select-user,.submit-create-user, .name-training, .summary-training, .location-training, .duration-training, .deadline-training, .certificate-deadline-training, .submit-profil, .password-profil, .email-profil, .firstname-profil, .name-profil, .edit-profil{
     width: 350px;
     height: 50px;
     font-size: 20px;
@@ -175,6 +175,43 @@ footer{
     margin-top: 40px;
     background-color: white;
     border: none;
+}
+.name-training, .summary-training, .location-training, .duration-training, .deadline-training, .certificate-deadline-training{
+    margin-top: 20px;
+}
+.form-profil{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.input-divide, .edit-profil{
+    width: 175px;
+}
+.profil{
+    text-align: center;
+}
+.profil-element{
+    font-size: 24px;
+}
+.profil-element span{
+    text-decoration: underline;
+}
+.submit-create-register{
+    width: 180px;
+    height: 50px;
+    font-size: 20px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    margin-top: 40px;
+    background-color: var(--tertiary-color);
+    border: none;
+    margin-right: 5px;
+}
+.submit-profil, .edit-profil{
+    background-color: var(--tertiary-color);
+}
+.register-required{
+    color: red;
 }
 .submit-sign, .btn-add-user{
     display: flex;
