@@ -208,6 +208,24 @@ class DbUserRequests
             $query->bindValue(':manager', $idManager);
 
             $query->execute();
+
+            return self::getLastID();
+        } catch (PDOException $e) {
+            return $e->getMessage();
+        } finally {
+            DbConnect::disconnect($link);
+        }
+    }
+
+    static function getLastID()
+    {
+        try {
+            $link = DbConnect::connect2db($errorMessage);
+            if (!$link)
+                return $errorMessage;
+
+            $query = $link->query("SELECT id_user FROM User ORDER BY DESC");
+            return $query->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return $e->getMessage();
         } finally {

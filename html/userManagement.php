@@ -94,7 +94,7 @@ $users = DbUserRequests::getAllUser();
                             }
                             ?>
                         </select>
-                        <select name="select" id="select" class="select-user text" multiple>
+                        <select name="select[]" id="select" class="select-user text" multiple>
                             <?php
                             $function = DbFunctionsRequests::getAllFunction();
                             foreach ($function as $f) {
