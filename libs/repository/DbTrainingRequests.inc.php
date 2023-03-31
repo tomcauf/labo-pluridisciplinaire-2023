@@ -40,7 +40,15 @@ class DbTrainingRequests
         }
     }
 
-
+    /**
+     * @param $name
+     * @param $description
+     * @param $location
+     * @param $duration
+     * @param $deadline
+     * @param $certificate_deadline
+     * @return int|void the id of the last inserted
+     */
     static function addTrainingCourse($name, $description, $location, $duration, $deadline, $certificate_deadline)
     {
         try {
@@ -58,7 +66,7 @@ class DbTrainingRequests
             $query->bindValue(":deadline", $deadline);
             $query->bindValue(":certificate_deadline", $certificate_deadline);
             $query->execute();
-
+            return intval($link->lastInsertId());
         } catch (PDOException $e) {
             echo $e->getMessage();
         } finally {
@@ -66,6 +74,11 @@ class DbTrainingRequests
         }
     }
 
+    /**
+     * @param $idTraining
+     * @param ...$requiredTrainingIds
+     * @return void
+     */
     static function addRequiredTraining($idTraining, ...$requiredTrainingIds)
     {
         try {
@@ -187,6 +200,11 @@ class DbTrainingRequests
         }
     }
 
+    /**
+     * @param $idTraining
+     * @param ...$idFunctions
+     * @return void
+     */
     static function addLinksToTrainingFunction($idTraining, ...$idFunctions)
     {
         try {
@@ -238,6 +256,11 @@ class DbTrainingRequests
         }
     }
 
+    /**
+     * @param $idTraining
+     * @param ...$idAccreditations
+     * @return void
+     */
     static function addLinksToTrainingAccreditation($idTraining, ...$idAccreditations)
     {
         try {
@@ -273,5 +296,25 @@ class DbTrainingRequests
         } finally {
             DbConnect::disconnect($link);
         }
+    }
+
+    /** Method that makes you able to add easily a new training completely!
+     * @param $name string that's the name of the training
+     * @param $description string that's the description of the training
+     * @param $location string that's the location where the training is happening
+     * @param $duration integer that's the duration of the training
+     * @param $deadline integer that's the limit at which the training becomes unavailable
+     * @param $certificate_deadline integer that's the limit at which the certificate is relevant
+     * @param $requiredTrainingIds array of required training ids
+     * @param $idFunctions array of the functions that are able to take this training
+     * @param $idAccreditations array of the accreditations given by this training
+     * @return void
+     */
+    static function addNewTraining($name, $description, $location, $duration, $deadline, $certificate_deadline, $requiredTrainingIds,$idFunctions, $idAccreditations){
+        $idTraining = self::addTrainingCourse($name, $description, $location, $duration, $deadline, $certificate_deadline);
+
+        self::addRequiredTraining($idTraining, $requiredTrainingIds);
+        self::addLinksToTrainingFunction($idTraining, $idFunctions);
+        self::addLinksToTrainingAccreditation($idTraining, $idAccreditations);
     }
 }
