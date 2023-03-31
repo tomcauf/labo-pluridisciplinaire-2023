@@ -25,11 +25,15 @@ include 'inc/session.inc.php';
                     <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
                 </div>
                 <div>
-                    <div class="box-underline box-element">
-                        <p>nom</p>
-                        <p>prenom</p>
-                        <p>function</p>
-                        <p>training name</p>
+                <div class="box-underline box-title box-flex">
+                        <p>Name</p>
+                        <p>Function</p>
+                        <p>Training Name</p>
+                    </div>
+                    <div class='box-underline box-element box-flex'>
+                        <p>John Doe</p>
+                        <p>Developer</p>
+                        <p>PHP</p>
                     </div>
                 </div>
             </div>

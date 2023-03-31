@@ -38,19 +38,19 @@ $users = DbUserRequests::getAllUser();
                             <p>Actif</p>
                         </div>
                         <?php
-                            foreach($users as $user) {
-                                $name = $user['name'] . " " . $user['firstname'];
-                                $functions = DbUserRequests::getUserLinksFunction($user['id_user']);
-                                $functionString = "";
-                                $imageLink = ($user['active']) ? "/assets/images/radio_button_green.svg" : "../assets/images/radio_button_red.svg";
-                                foreach($functions as $function) {
-                                    $functionString .= $function['name']."";
-                                }
-                                echo "<div class='box-underline box-element box-flex'
+                        foreach ($users as $user) {
+                            $name = $user['name'] . " " . $user['firstname'];
+                            $functions = DbUserRequests::getUserLinksFunction($user['id_user']);
+                            $functionString = "";
+                            $imageLink = ($user['active']) ? "../assets/images/radio_button_green.svg" : "../assets/images/radio_button_red.svg";
+                            foreach ($functions as $function) {
+                                $functionString .= $function['name'] . "";
+                            }
+                            echo "<div class='box-underline box-element box-flex'>
                                         <p>$name</p>
                                         <p>$functionString</p>
-                                        <img src='$imageLink' alt='connection state'></div>";
-                            }
+                                        <span><img src='$imageLink' alt='connection state'></span></div>";
+                        }
                         ?>
                     </div>
                 </div>
@@ -76,8 +76,9 @@ $users = DbUserRequests::getAllUser();
 <script src="../scripts/multiSelectTag.js"></script>
 <script>
     new MultiSelectTag('manager', {
-    rounded: true,
-    shadow: true
-})
+        rounded: true,
+        shadow: true
+    })
 </script>
+
 </html>

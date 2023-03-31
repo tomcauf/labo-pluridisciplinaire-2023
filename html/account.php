@@ -50,8 +50,8 @@ if(isset($_POST['editForm'])){
                             echo '    <input id="name" name="name" type="text" value='. $user['name'] .' required>';
                             echo '    <input id="firstname" name="firstname" type="text" value='. $user['firstname'] .' required>';
                             echo '    <input id="email" name="email" type="text" value='. $user['email'] .' required>';
-                            echo '    <input id="password" name="password" type="text" required>';
-                            echo '    <input id="repPassword" name="repPassword" type="text" required>';
+                            echo '    <input id="password" name="password" type="password" required>';
+                            echo '    <input id="repPassword" name="repPassword" type="password" required>';
                             echo '    <button type="submit" name="editForm">Save changes</button>';
                             echo '</form>';
                         }

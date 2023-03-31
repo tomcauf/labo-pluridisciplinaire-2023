@@ -19,6 +19,7 @@ include 'inc/session.inc.php';
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/style.css">
     <script src="../scripts/sideBar.js" defer></script>
+    <script src="../scripts/fullscreen.js" defer></script>
     <title>Dashboard</title>
 </head>
 
@@ -32,7 +33,7 @@ include 'inc/session.inc.php';
             <div class="box box-training">
                 <div class="box-title box-underline">
                     <h2 class="title text">List of Training</h2>
-                    <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+                    <img src="../assets/images/open_fullscreen.svg" class="box-training-btn" id="fullscreen" alt="FullScreen">
                 </div>
                 <div>
                     <div class="box-underline box-title box-flex">
@@ -69,7 +70,7 @@ include 'inc/session.inc.php';
             <div class="box box-accreditation">
                 <div class="box-title">
                     <h2 class="title text">Accreditation</h2>
-                    <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+                    <img src="../assets/images/open_fullscreen.svg" class="box-accreditation-btn" alt="FullScreen">
                 </div>
                 <div>
                     <div class="box-underline box-title box-flex">
@@ -93,10 +94,10 @@ include 'inc/session.inc.php';
                     ?>
                 </div>
             </div>
-            <div class="box box-ongoing-training-">
+            <div class="box box-ongoing-training">
                 <div class="box-title">
                     <h2 class="title text">On going Training</h2>
-                    <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+                    <img src="../assets/images/open_fullscreen.svg" class="box-ongoing-training-btn" alt="FullScreen">
                 </div>
                 <div>
                     <div class="box-underline box-title box-flex">
@@ -124,11 +125,10 @@ include 'inc/session.inc.php';
                     ?>
                 </div>
             </div>
-
             <div class="box box-completed-training">
                 <div class="box-title">
                     <h2 class="title text">Finish Training</h2>
-                    <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
+                    <img src="../assets/images/open_fullscreen.svg" class="box-completed-training-btn" alt="FullScreen">
                 </div>
                 <div>
                     <div class="box-underline box-title box-flex">
@@ -140,7 +140,7 @@ include 'inc/session.inc.php';
                     $allTraining = DbUserRequests::getAllParticipantTrainingValide($idUser);
                     if (empty($allTraining))
                         echo "<div class='box-underline box-element box-flex'>
-                                <p>There is no ongoing training</p>
+                                <p>There is no finish training</p>
                                 </div>";
                     else {
                         foreach ($allTraining as $training) {

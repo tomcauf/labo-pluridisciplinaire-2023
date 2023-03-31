@@ -49,23 +49,22 @@ include 'inc/session.inc.php';
                         <h2 class="title text">Add a Training</h2>
                         <img src="../assets/images/open_fullscreen.svg" alt="FullScreen">
                     </div>
-                    <!-- $name, $description, $location, $duration, $deadline, $certificate_deadline, $listOfFunction, $listOfTrainers, $listOfRequis -->
                     <form method="post" class="form-training">
-                        <input type="text" name="name" class="text" placeholder="Name" required>
-                        <input type="text" name="summary" class="text" placeholder="Summary" required>
-                        <input type="text" name="location" class="text" placeholder="Location" required>
-                        <input type="number" name="summary" class="" placeholder="Duration (month)" required>
-                        <input type="text" name="deadline" class="" placeholder="Deadline (DD/MM/YYYY)" required>
-                        <input type="text" name="certificate_deadline" class="text" placeholder="Certificate deadline" required>
-                        <select name="requis" id="requis" class="select-user text" multiple>
+                        <input type="text" name="name" class="name-training text" placeholder="Name" required>
+                        <input type="text" name="summary" class="summary-training text" placeholder="Summary" required>
+                        <input type="text" name="location" class="location-training text" placeholder="Location" required>
+                        <input type="number" name="duration" class="duration-training" placeholder="Duration (month)" required>
+                        <input type="text" name="deadline" class="deadline-training" placeholder="Deadline (DD/MM/YYYY)" required>
+                        <input type="text" name="certificate_deadline" class="certificate-deadline-training text" placeholder="Certificate deadline" required>
+                        <select name="requis" id="requis" class="select-requis text" multiple>
                             <option value="1">Requis 1</option>
                             <option value="2">Requis 2</option>
                         </select>
-                        <select name="function" id="function" class="select-user text" multiple>
+                        <select name="function" id="function" class="select-function text" multiple>
                             <option value="1">Function 1</option>
                             <option value="2">Function 2</option>
                         </select>
-                        <select name="trainers" id="trainers" class="select-user text" multiple>
+                        <select name="trainers" id="trainers" class="select-trainers text" multiple>
                             <option value="1">Trainers 1</option>
                             <option value="2">Trainers 2</option>
                         </select>
