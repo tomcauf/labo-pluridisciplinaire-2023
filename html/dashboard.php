@@ -44,12 +44,19 @@ include 'inc/session.inc.php';
 
                     $allFunctions = DbUserRequests::getUserLinksFunction($idUser);
                     $allTraining = array();
-
+                    $allSubsribedTraining = DbUserRequests::getAllParticipeTraining($idUser);
+                    $allSubsribedTraining = array_map(function ($training) {
+                        return $training['id'];
+                    }, $allSubsribedTraining);
                     foreach ($allFunctions as $function) {
                         $allTraining = array_merge($allTraining, DbFunctionsRequests::getFunctionLinksTraining($function['id_function']));
                     }
 
-                    $allTraining = array_filter($allTraining, function ($training) {
+                    $allTraining = array_filter($allTraining, function ($training) use ($allSubsribedTraining) {
+                        foreach ($allSubsribedTraining as $subscribedTraining) {
+                            if ($training['id_training'] == $subscribedTraining)
+                                return false;
+                        }
                         return $training['active'] == 1;
                     });
                     if (empty($allTraining))
@@ -106,7 +113,7 @@ include 'inc/session.inc.php';
                         <p>Status</p>
                     </div>
                     <?php
-                    $allTraining = DbUserRequests::getAllParticipantTraining($idUser);
+                    $allTraining = DbUserRequests::getAllParticipantTrainingDoing($idUser);
                     if (empty($allTraining))
                         echo "<div class='box-underline box-element box-flex'>
                                 <p>There is no ongoing training</p>
@@ -117,7 +124,7 @@ include 'inc/session.inc.php';
                             echo "<p>" . $training['name'] . "</p>";
                             echo "<p>" . $training['location'] . "</p>";
                             echo "<p>" . $training['deadline'] . "</p>";
-                            echo "<p>" . $training['statut'] . "</p>";
+                            echo "<p>" . $training['status'] . "</p>";
                             echo "</div>";
                         }
                     }
