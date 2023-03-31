@@ -49,7 +49,11 @@ class DbUserRequests
             $query->execute();
 
             $result = $query->fetch(PDO::FETCH_ASSOC);
-            return ($result && password_verify($password, $result['password'])) ? intval($result['id_user']) : false;
+            if($result['active'] == true) {
+                return ($result && password_verify($password, $result['password'])) ? intval($result['id_user']) : false;
+            } else {
+                return false;
+            }
         } catch (PDOException $e) {
             return $e->getMessage();
         } finally {
@@ -250,7 +254,6 @@ class DbUserRequests
         }
     }
 
-    //TODO safe delete of all other foreign keys
     static function removeUser($idUser)
     {
         try {
